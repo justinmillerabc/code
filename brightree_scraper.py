@@ -73,10 +73,8 @@ def insert_data(rec):
                                         `referral_name`,
                                         `referral_city`,
                                         `referral_state`)
-                                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
-                                        %s, %s, %s, %s, %s, %s, %s  ) """
-#                                VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',
-#                                        '%s', '%s', '%s', '%s', '%s', '%s', '%s'  ) """
+                                VALUES ("%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s",
+                                        "%s", "%s", "%s", "%s", "%s", "%s", "%s"  ) """
 
     sql = sql % (get_col_val(rec, 'so_number'),
                  get_col_val(rec, 'so_date_created'),
