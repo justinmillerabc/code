@@ -165,7 +165,10 @@ def get_col_val(rec, key):
           val = 1
     else:
        val = ''
-    val = val.replace('"', '&quote;')
+
+    if type(val) in [type(''), type(u'')]:
+        val = val.replace('"', '&quote;')
+
     return val
 
 
