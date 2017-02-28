@@ -1,25 +1,19 @@
+import sys
 import csv
 import time 
 import MySQLdb
 import requests
-import urlparse
 import xmltodict
-import btconfig
-import btdbutils
-
-#import urllib.parse as urlparse
+from btconfig import *
+from btdbutils import *
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 
-URL = "https://brightree.net"
-FIREFOX_BIN = "/home/muhammad/development/tdd/firefox/firefox"
-USERS_FILE = "brightree_users.txt"
-
-DBHOST = "localhost"
-DBNAME = "btdb"
-DBUSER = "root"
-DBPASS = "test123"
+if sys.version_info[0] == 3:
+    import urllib.parse as urlparse
+else:
+    import urlparse
 
 
 def process_data(username, password, browser):
@@ -45,15 +39,10 @@ def process_data(username, password, browser):
     for cookie in cookies: 
         session.cookies.set(cookie['name'], cookie['value'])
 
-    #download_links = browser.find_elements_by_xpath("//a[@title='Preview Report']")
     trs1 = browser.find_elements_by_xpath("//tr[@class='rgRow']")
     trs2 = browser.find_elements_by_xpath("//tr[@class='rgAltRow']")
 
     trs = trs1 + trs2
-
-    #print (len(download_links), download_links)
-    #print (len(trs), trs)
-    #print (trs[0], dir(trs[0]))
 
     for tr in trs:
         tds = tr.find_elements_by_xpath('.//td')
@@ -69,9 +58,11 @@ def process_data(username, password, browser):
             parsed = urlparse.urlparse(report_link)
             report_filename = urlparse.parse_qs(parsed.query)['FileName'][0]
             doc = xmltodict.parse(report_contents)
-            print (report_link)
-            print (report_filename)
-            records = doc['Reports']['Detail']['Table1']
+
+            try:
+                records = doc['Reports']['Detail']['Table1']
+            except:
+                records = []
 
             # Save a local copy of the report (no required)
             f = open(report_filename, "w")
@@ -83,16 +74,8 @@ def process_data(username, password, browser):
 
             for record in records:
                 if report_name.endswith('SalesOrdersXML'):
-#                    print ("insert_data_so(record)")
-#                    print ('==>', records, type(records) )
-#                    print ('==>', record, type(record) )
-#                    exit()
-                    #insert_data_so(record)
-                     pass
+                    insert_data_so(record)
                 else:
-#                    print ("insert_data_soc(record)")
-#                    print ('==>', records, type(records) )
-#                    print ('==>', record, type(record) )
                     insert_data_soc(record)
 
 

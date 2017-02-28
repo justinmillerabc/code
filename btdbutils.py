@@ -223,7 +223,7 @@ def insert_data_so(rec):
         # Commit your changes in the database
         db.commit()
 
-        print ('so_number: ', get_col_val(rec, 'so_number'), r, 'record inserted')
+        #print ('so_number: ', get_col_val(rec, 'so_number'), r, 'record inserted')
 
     except (MySQLdb.Error) as e:
         print (e) 
@@ -623,7 +623,7 @@ def insert_data_soc(rec):
         # Commit your changes in the database
         db.commit()
 
-        print ('so_number: ', get_col_val(rec, 'so_number'), r, 'record inserted')
+        #print ('so_number: ', get_col_val(rec, 'so_number'), r, 'record inserted')
 
     except (MySQLdb.Error) as e:
         print (e)
