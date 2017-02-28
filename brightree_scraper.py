@@ -4,7 +4,8 @@ import MySQLdb
 import requests
 import urlparse
 import xmltodict
-import bt_custom
+import btconfig
+import btdbutils
 
 #import urllib.parse as urlparse
 from selenium import webdriver

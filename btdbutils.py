@@ -1,3 +1,5 @@
+import MySQLdb
+from btconfig import *
 
 SO_MAP = { 
            'work_in_progress_state': 'WorkInProgressWIPState',
@@ -192,25 +194,27 @@ def insert_data_so(rec):
                                         `referral_city`,
                                         `referral_state`)
                                 VALUES ("%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s",
-                                        "%s", "%s", "%s", "%s", "%s", "%s", "%s"  ) """
+                                        "%s", "%s", "%s", "%s", "%s", "%s", "%s"  ) 
+    """ % (
 
-    sql = sql % (get_col_val(rec, 'so_number'),
-                     get_col_val(rec, 'so_date_created'),
-                     get_col_val(rec, 'so_created_by'),
-                     get_col_val(rec, 'so_branch_office'),
-                     get_col_val(rec, 'so_status'),
-                     get_col_val(rec, 'so_location'),
-                     get_col_val(rec, 'so_reference'),
-                     get_col_val(rec, 'so_confirm_date'),
-                     get_col_val(rec, 'work_in_progress_state'),
-                     get_col_val(rec, 'patient_id'),
-                     get_col_val(rec, 'ordering_doctor_city'),
-                     get_col_val(rec, 'ordering_doctor_state'),
-                     get_col_val(rec, 'insurance_pri_payor'),
-                     get_col_val(rec, 'marketing_rep_fullname'),
-                     get_col_val(rec, 'referral_name'),
-                     get_col_val(rec, 'referral_city'),
-                     get_col_val(rec, 'referral_state'))
+                       get_col_val(rec, 'so_number'),
+                       get_col_val(rec, 'so_date_created'),
+                       get_col_val(rec, 'so_created_by'),
+                       get_col_val(rec, 'so_branch_office'),
+                       get_col_val(rec, 'so_status'),
+                       get_col_val(rec, 'so_location'),
+                       get_col_val(rec, 'so_reference'),
+                       get_col_val(rec, 'so_confirm_date'),
+                       get_col_val(rec, 'work_in_progress_state'),
+                       get_col_val(rec, 'patient_id'),
+                       get_col_val(rec, 'ordering_doctor_city'),
+                       get_col_val(rec, 'ordering_doctor_state'),
+                       get_col_val(rec, 'insurance_pri_payor'),
+                       get_col_val(rec, 'marketing_rep_fullname'),
+                       get_col_val(rec, 'referral_name'),
+                       get_col_val(rec, 'referral_city'),
+                       get_col_val(rec, 'referral_state')
+    )
 
     try:
         # Execute the SQL commands
@@ -221,7 +225,7 @@ def insert_data_so(rec):
 
         print ('so_number: ', get_col_val(rec, 'so_number'), r, 'record inserted')
 
-    except (MySQLdb.Error, MySQLdb.Warning) as e:
+    except (MySQLdb.Error) as e:
         print (e) 
         print (sql)
 
@@ -242,7 +246,8 @@ def insert_data_soc(rec):
 
     #
     # sql statements .....
-    sql = """INSERT INTO `sales_order_confirmed`(`so_number`, 
+    sql_soc = """INSERT INTO `sales_order_confirmed` (
+                                                 `so_number`, 
                                                  `so_date_created`, 
                                                  `so_created_by`, 
                                                  `so_branch_office`, 
@@ -315,102 +320,99 @@ def insert_data_soc(rec):
                                                  "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s",
                                                  "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s",
                                                  "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s",
-                                                 "%s", "%s", "%s", "%s", "%s", "%s" ) """
-               
-    sql = sql %     (get_col_val(rec, 'so_number'), 
-                     get_col_val(rec, 'so_date_created'), 
-                     get_col_val(rec, 'so_created_by'), 
-                     get_col_val(rec, 'so_branch_office'), 
-                     get_col_val(rec, 'so_status'), 
-                     get_col_val(rec, 'so_manual_hold'), 
-                     get_col_val(rec, 'so_location'), 
-                     get_col_val(rec, 'so_po_number'), 
-                     get_col_val(rec, 'so_purchase_order_number'), 
-                     get_col_val(rec, 'so_reference'), 
-                     get_col_val(rec, 'so_user1'), 
-                     get_col_val(rec, 'so_user2'), 
-                     get_col_val(rec, 'so_user3'), 
-                     get_col_val(rec, 'so_user4'), 
-                     get_col_val(rec, 'so_confirm_date'), 
-                     get_col_val(rec, 'so_confirmed_by'), 
-                     get_col_val(rec, 'so_last_printed'), 
-                     get_col_val(rec, 'so_note'), 
-                     get_col_val(rec, 'so_classification'), 
-                     get_col_val(rec, 'so_type'), 
-                     get_col_val(rec, 'so_manual_hold_reason'), 
-                     get_col_val(rec, 'so_custom_fields_field1'), 
-                     get_col_val(rec, 'so_custom_fields_field2'), 
-                     get_col_val(rec, 'so_custom_fields_field3'), 
-                     get_col_val(rec, 'so_custom_fields_field4'), 
-                     get_col_val(rec, 'so_custom_fields_field5'), 
-                     get_col_val(rec, 'so_custom_fields_field6'), 
-                     get_col_val(rec, 'so_custom_fields_field7'), 
-                     get_col_val(rec, 'so_custom_fields_field8'), 
-                     get_col_val(rec, 'so_custom_fields_field9'), 
-                     get_col_val(rec, 'so_custom_fields_field10'), 
-                     get_col_val(rec, 'so_custom_fields_field11'), 
-                     get_col_val(rec, 'so_custom_fields_field12'), 
-                     get_col_val(rec, 'so_custom_fields_field13'), 
-                     get_col_val(rec, 'so_custom_fields_field14'), 
-                     get_col_val(rec, 'so_custom_fields_field15'), 
-                     get_col_val(rec, 'so_custom_fields_field16'), 
-                     get_col_val(rec, 'so_custom_fields_field17'), 
-                     get_col_val(rec, 'so_custom_fields_field18'), 
-                     get_col_val(rec, 'so_custom_fields_field19'), 
-                     get_col_val(rec, 'so_hold_cmn_not_logged'), 
-                     get_col_val(rec, 'so_hold_cmn_expired'), 
-                     get_col_val(rec, 'so_hold_par_not_logged'), 
-                     get_col_val(rec, 'so_hold_par_expired'), 
-                     get_col_val(rec, 'so_hold_manual_hold'), 
-                     get_col_val(rec, 'so_stop_pending_pickup'), 
-                     get_col_val(rec, 'so_stop_multiple_pricing_options'), 
-                     get_col_val(rec, 'so_stop_policy_expired'), 
-                     get_col_val(rec, 'so_stop_no_pricing_found'), 
-                     get_col_val(rec, 'so_stop_policy_changed'), 
-                     get_col_val(rec, 'so_stop_manual_stop_date'), 
-                     get_col_val(rec, 'so_stop_automatic_eligibility_check'), 
-                     get_col_val(rec, 'so_stop_ineligible_policy'), 
-                     get_col_val(rec, 'so_delivery_note'), 
-                     get_col_val(rec, 'work_in_progress_wip_state'), 
-                     get_col_val(rec, 'work_in_progress_assigned_to'), 
-                     get_col_val(rec, 'work_in_progress_completed'), 
-                     get_col_val(rec, 'work_in_progress_wip_days_in_state'), 
-                     get_col_val(rec, 'sleep_therapy_solution'), 
-                     get_col_val(rec, 'sleep_therapy_external_patient_id'), 
-                     get_col_val(rec, 'marketing_rep_last_name'), 
-                     get_col_val(rec, 'marketing_rep_first_name'), 
-                     get_col_val(rec, 'marketing_rep_full_name'), 
-                     get_col_val(rec, 'practitioner_last_name'), 
-                     get_col_val(rec, 'practitioner_first_name'), 
-                     get_col_val(rec, 'practitioner_middle_name'), )
-    # .
-    # .
-    # .
+                                                 "%s", "%s", "%s", "%s", "%s", "%s" 
+    ) """ % (
+                                get_col_val(rec, 'so_number'), 
+                                get_col_val(rec, 'so_date_created'), 
+                                get_col_val(rec, 'so_created_by'), 
+                                get_col_val(rec, 'so_branch_office'), 
+                                get_col_val(rec, 'so_status'), 
+                                get_col_val(rec, 'so_manual_hold'), 
+                                get_col_val(rec, 'so_location'), 
+                                get_col_val(rec, 'so_po_number'), 
+                                get_col_val(rec, 'so_purchase_order_number'), 
+                                get_col_val(rec, 'so_reference'), 
+                                get_col_val(rec, 'so_user1'), 
+                                get_col_val(rec, 'so_user2'), 
+                                get_col_val(rec, 'so_user3'), 
+                                get_col_val(rec, 'so_user4'), 
+                                get_col_val(rec, 'so_confirm_date'), 
+                                get_col_val(rec, 'so_confirmed_by'), 
+                                get_col_val(rec, 'so_last_printed'), 
+                                get_col_val(rec, 'so_note'), 
+                                get_col_val(rec, 'so_classification'), 
+                                get_col_val(rec, 'so_type'), 
+                                get_col_val(rec, 'so_manual_hold_reason'), 
+                                get_col_val(rec, 'so_custom_fields_field1'), 
+                                get_col_val(rec, 'so_custom_fields_field2'), 
+                                get_col_val(rec, 'so_custom_fields_field3'), 
+                                get_col_val(rec, 'so_custom_fields_field4'), 
+                                get_col_val(rec, 'so_custom_fields_field5'), 
+                                get_col_val(rec, 'so_custom_fields_field6'), 
+                                get_col_val(rec, 'so_custom_fields_field7'), 
+                                get_col_val(rec, 'so_custom_fields_field8'), 
+                                get_col_val(rec, 'so_custom_fields_field9'), 
+                                get_col_val(rec, 'so_custom_fields_field10'), 
+                                get_col_val(rec, 'so_custom_fields_field11'), 
+                                get_col_val(rec, 'so_custom_fields_field12'), 
+                                get_col_val(rec, 'so_custom_fields_field13'), 
+                                get_col_val(rec, 'so_custom_fields_field14'), 
+                                get_col_val(rec, 'so_custom_fields_field15'), 
+                                get_col_val(rec, 'so_custom_fields_field16'), 
+                                get_col_val(rec, 'so_custom_fields_field17'), 
+                                get_col_val(rec, 'so_custom_fields_field18'), 
+                                get_col_val(rec, 'so_custom_fields_field19'), 
+                                get_col_val(rec, 'so_hold_cmn_not_logged'), 
+                                get_col_val(rec, 'so_hold_cmn_expired'), 
+                                get_col_val(rec, 'so_hold_par_not_logged'), 
+                                get_col_val(rec, 'so_hold_par_expired'), 
+                                get_col_val(rec, 'so_hold_manual_hold'), 
+                                get_col_val(rec, 'so_stop_pending_pickup'), 
+                                get_col_val(rec, 'so_stop_multiple_pricing_options'), 
+                                get_col_val(rec, 'so_stop_policy_expired'), 
+                                get_col_val(rec, 'so_stop_no_pricing_found'), 
+                                get_col_val(rec, 'so_stop_policy_changed'), 
+                                get_col_val(rec, 'so_stop_manual_stop_date'), 
+                                get_col_val(rec, 'so_stop_automatic_eligibility_check'), 
+                                get_col_val(rec, 'so_stop_ineligible_policy'), 
+                                get_col_val(rec, 'so_delivery_note'), 
+                                get_col_val(rec, 'work_in_progress_wip_state'), 
+                                get_col_val(rec, 'work_in_progress_assigned_to'), 
+                                get_col_val(rec, 'work_in_progress_completed'), 
+                                get_col_val(rec, 'work_in_progress_wip_days_in_state'), 
+                                get_col_val(rec, 'sleep_therapy_solution'), 
+                                get_col_val(rec, 'sleep_therapy_external_patient_id'), 
+                                get_col_val(rec, 'marketing_rep_last_name'), 
+                                get_col_val(rec, 'marketing_rep_first_name'), 
+                                get_col_val(rec, 'marketing_rep_full_name'), 
+                                get_col_val(rec, 'practitioner_last_name'), 
+                                get_col_val(rec, 'practitioner_first_name'), 
+                                get_col_val(rec, 'practitioner_middle_name') )
 
     sql_dlvry = """INSERT INTO `soc_delivery` (
                                                `so_number`,
-                                               `delivery_scheduled_date',
-                                               `delivery_actual_date',
-                                               `delivery_address1',
-                                               `delivery_address2',
-                                               `delivery_city',
-                                               `delivery_state',
-                                               `delivery_county',
-                                               `delivery_country',
-                                               `delivery_postal_code',
-                                               `delivery_phone',
-                                               `delivery_fax',
-                                               `delivery_tax_zone',
-                                               `delivery_tax_rate',
-                                               `delivery_technician',
-                                               `delivery_bright_ship_status',
-                                               `delivery_bright_ship_carrier',
-                                               `delivery_bright_ship_method',
-                                               `delivery_bright_ship_tracking_numbers',
-                                               `delivery_fulfillment_vendor',
-                                               `delivery_account_number',
-                                               `delivery_ship_by',
-                                               `delivery_status' )
+                                               `delivery_scheduled_date`,
+                                               `delivery_actual_date`,
+                                               `delivery_address1`,
+                                               `delivery_address2`,
+                                               `delivery_city`,
+                                               `delivery_state`,
+                                               `delivery_county`,
+                                               `delivery_country`,
+                                               `delivery_postal_code`,
+                                               `delivery_phone`,
+                                               `delivery_fax`,
+                                               `delivery_tax_zone`,
+                                               `delivery_tax_rate`,
+                                               `delivery_technician`,
+                                               `delivery_bright_ship_status`,
+                                               `delivery_bright_ship_carrier`,
+                                               `delivery_bright_ship_method`,
+                                               `delivery_bright_ship_tracking_numbers`,
+                                               `delivery_fulfillment_vendor`,
+                                               `delivery_account_number`,
+                                               `delivery_ship_by`,
+                                               `delivery_status` )
                                        VALUES (
                                                "%s", "%s", "%s",
                                                "%s", "%s", "%s",
@@ -421,8 +423,31 @@ def insert_data_soc(rec):
                                                "%s", "%s", "%s",
                                                "%s", "%s"
                                               )
-    """
-
+    """ % (
+                              get_col_val(rec, 'so_number'),
+                              get_col_val(rec, 'delivery_scheduled_date'),
+                              get_col_val(rec, 'delivery_actual_date'),
+                              get_col_val(rec, 'delivery_address1'),
+                              get_col_val(rec, 'delivery_address2'),
+                              get_col_val(rec, 'delivery_city'),
+                              get_col_val(rec, 'delivery_state'),
+                              get_col_val(rec, 'delivery_county'),
+                              get_col_val(rec, 'delivery_country'),
+                              get_col_val(rec, 'delivery_postal_code'),
+                              get_col_val(rec, 'delivery_phone'),
+                              get_col_val(rec, 'delivery_fax'),
+                              get_col_val(rec, 'delivery_tax_zone'),
+                              get_col_val(rec, 'delivery_tax_rate'),
+                              get_col_val(rec, 'delivery_technician'),
+                              get_col_val(rec, 'delivery_bright_ship_status'),
+                              get_col_val(rec, 'delivery_bright_ship_carrier'),
+                              get_col_val(rec, 'delivery_bright_ship_method'),
+                              get_col_val(rec, 'delivery_bright_ship_tracking_numbers'),
+                              get_col_val(rec, 'delivery_fulfillment_vendor'),
+                              get_col_val(rec, 'delivery_account_number'),
+                              get_col_val(rec, 'delivery_ship_by'),
+                              get_col_val(rec, 'delivery_status')
+    )
 
     sql_patient = """INSERT INTO `soc_patient` (
                                                `so_number`,
@@ -435,13 +460,23 @@ def insert_data_soc(rec):
                                                `patient_bpc_edelivery_status`,
                                                `patient_bpc_payment_plan`,
                                                `patient_bpc_information` )
-                                        VALUES
-                                               (
+                                        VALUES (
                                                 "%s", "%s", "%s", "%s", "%s",
                                                 "%s", "%s", "%s", "%s", "%s"
                                                )
-    """
-
+    """ % (
+                              get_col_val(rec, 'so_number'),
+                              get_col_val(rec, 'patient_email_address'),
+                              get_col_val(rec, 'patient_id'),
+                              get_col_val(rec, 'patient_date_created'),
+                              get_col_val(rec, 'patient_delivery_note'),
+                              get_col_val(rec, 'patient_branch'),
+                              get_col_val(rec, 'patient_bpc_auto_pay_status'),
+                              get_col_val(rec, 'patient_bpc_edelivery_status'),
+                              get_col_val(rec, 'patient_bpc_payment_plan'),
+                              get_col_val(rec, 'patient_bpc_information')
+    )
+    
     sql_odoc = """INSERT INTO `soc_ordering_doctor` (
                                                `so_number`,
                                                `ordering_doctor_last_name`,
@@ -457,14 +492,27 @@ def insert_data_soc(rec):
                                                `ordering_doctor_pecos_certify_status`,
                                                `ordering_doctor_full_name`,
                                                `ordering_doctor_group` )
-                                        VALUES
-                                               (
+                                        VALUES (
                                                 "%s", "%s", "%s", "%s", "%s",
                                                 "%s", "%s", "%s", "%s", "%s",
                                                 "%s", "%s", "%s", "%s"
                                                )
-    """
-
+    """ % (
+                              get_col_val(rec, 'so_number'),
+                              get_col_val(rec, 'ordering_doctor_last_name'),
+                              get_col_val(rec, 'ordering_doctor_first_name'),
+                              get_col_val(rec, 'ordering_doctor_address1'),
+                              get_col_val(rec, 'ordering_doctor_address2'),
+                              get_col_val(rec, 'ordering_doctor_city'),
+                              get_col_val(rec, 'ordering_doctor_state'),
+                              get_col_val(rec, 'ordering_doctor_postal_code'),
+                              get_col_val(rec, 'ordering_doctor_phone'),
+                              get_col_val(rec, 'ordering_doctor_fax'),
+                              get_col_val(rec, 'ordering_doctor_fax_to'),
+                              get_col_val(rec, 'ordering_doctor_pecos_certify_status'),
+                              get_col_val(rec, 'ordering_doctor_full_name'),
+                              get_col_val(rec, 'ordering_doctor_group')
+    )
 
     sql_dgns = """INSERT INTO `soc_diagnosis` (
                                                `so_number`,
@@ -474,13 +522,20 @@ def insert_data_soc(rec):
                                                `so_diagnosis_codes_dxicd-10_description_x0023_02`,
                                                `so_diagnosis_codes_dxicd-10_code_x0023_03`,
                                                `so_diagnosis_codes_dxicd-10_description_x0023_03` )
-                                        VALUES
-                                               (
+                                        VALUES (
                                                 "%s", 
                                                 "%s", "%s", "%s",
-                                                "%s", "%s", "%s",
+                                                "%s", "%s", "%s"
                                                )
-    """
+    """ % (
+                              get_col_val(rec, 'so_number'),
+                              get_col_val(rec, 'so_diagnosis_codes_dxicd-10_code_x0023_01'),
+                              get_col_val(rec, 'so_diagnosis_codes_dxicd-10_description_x0023_01'),
+                              get_col_val(rec, 'so_diagnosis_codes_dxicd-10_code_x0023_02'),
+                              get_col_val(rec, 'so_diagnosis_codes_dxicd-10_description_x0023_02'),
+                              get_col_val(rec, 'so_diagnosis_codes_dxicd-10_code_x0023_03'),
+                              get_col_val(rec, 'so_diagnosis_codes_dxicd-10_description_x0023_03')
+    )
 
     sql_rfrl = """INSERT INTO `soc_referral` (
                                                `so_number`,
@@ -494,14 +549,24 @@ def insert_data_soc(rec):
                                                `referral_fax`,
                                                `referral_doctor_group`,
                                                `referral_facility_group` )
-                                        VALUES
-                                               (
+                                        VALUES (
                                                 "%s", "%s", "%s", "%s", "%s",
                                                 "%s", "%s", "%s", "%s", "%s",
                                                 "%s"
                                                ) 
-    """
-
+    """ % (
+                              get_col_val(rec, 'so_number'),
+                              get_col_val(rec, 'referral_type'),
+                              get_col_val(rec, 'referral_name'),
+                              get_col_val(rec, 'referral_address1'),
+                              get_col_val(rec, 'referral_city'),
+                              get_col_val(rec, 'referral_state'),
+                              get_col_val(rec, 'referral_zip'),
+                              get_col_val(rec, 'referral_phone'),
+                              get_col_val(rec, 'referral_fax'),
+                              get_col_val(rec, 'referral_doctor_group'),
+                              get_col_val(rec, 'referral_facility_group')
+    )
 
     sql_insrnc = """INSERT INTO `soc_insurance` (
                                                `so_number`,
@@ -516,30 +581,53 @@ def insert_data_soc(rec):
                                                `insurance_ter_payor`,
                                                `insurance_ter_policy_x0023_`,
                                                `insurance_insurance_verified` )
-                                        VALUES
-                                               (
+                                        VALUES (
                                                 "%s", "%s", "%s", "%s", "%s",
                                                 "%s", "%s", "%s", "%s", "%s",
                                                 "%s", "%s"
                                                )
-    """
+    """ % (
+                              get_col_val(rec, 'so_number'),
+                              get_col_val(rec, 'insurance_pri_payor'),
+                              get_col_val(rec, 'insurance_pri_policy_x0023_'),
+                              get_col_val(rec, 'insurance_pri_policy_verified'),
+                              get_col_val(rec, 'insurance_pri_pay_pct'),
+                              get_col_val(rec, 'insurance_sec_payor'),
+                              get_col_val(rec, 'insurance_sec_policy_x0023_'),
+                              get_col_val(rec, 'insurance_sec_policy_verified'),
+                              get_col_val(rec, 'insurance_sec_payPct'),
+                              get_col_val(rec, 'insurance_ter_payor'),
+                              get_col_val(rec, 'insurance_ter_policy_x0023_'),
+                              get_col_val(rec, 'insurance_insurance_verified')
+    )
 
-
+    
+#    print (sql_soc)
+#    print (sql_dlvry)
+#    print (sql_patient)
+#    print (sql_odoc)
+#    print (sql_dgns)
+#    print (sql_rfrl)
+#    print (sql_insrnc)
 
     try:
         # Execute the SQL commands
-        r = cursor.execute(sql)
+        r = cursor.execute(sql_soc)
+        r = cursor.execute(sql_dlvry)
+        r = cursor.execute(sql_patient)
+        r = cursor.execute(sql_odoc)
+        r = cursor.execute(sql_dgns)
+        r = cursor.execute(sql_rfrl)
+        r = cursor.execute(sql_insrnc)
 
         # Commit your changes in the database
         db.commit()
 
         print ('so_number: ', get_col_val(rec, 'so_number'), r, 'record inserted')
 
-    except (MySQLdb.Error, MySQLdb.Warning) as e:
+    except (MySQLdb.Error) as e:
         print (e)
-        print (sql)
+        print (sql_soc)
 
         # Rollback in case there is any error
         db.rollback()
-
-
