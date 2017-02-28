@@ -165,6 +165,7 @@ def get_col_val(rec, key):
           val = 1
     else:
        val = ''
+    val = val.replace('"', '&quote;')
     return val
 
 
