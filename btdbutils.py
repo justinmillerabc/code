@@ -174,7 +174,7 @@ def get_col_val(rec, key):
 
 def insert_data_so(rec):
     """"""
-    print ("Inserting data for SO #.", get_col_val(rec, 'so_number'))
+    print ("Inserting data for SO #." +  str(get_col_val(rec, 'so_number')))
     # Open database connection
     db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME, use_unicode=True, charset="utf8")
 
@@ -231,8 +231,8 @@ def insert_data_so(rec):
         #print ('so_number: ', get_col_val(rec, 'so_number'), r, 'record inserted')
 
     except (MySQLdb.Error) as e:
+        print ('Error inserting record with SO #.' + str(get_col_val(rec, 'so_number')) )
         print (e) 
-        print (sql)
 
         # Rollback in case there is any error
         db.rollback()
@@ -243,7 +243,7 @@ def insert_data_so(rec):
 
 def insert_data_soc(rec):
     """"""
-    print ("Inserting data for SO #.", get_col_val(rec, 'so_number'))
+    print ("Inserting data for SO #." + str(get_col_val(rec, 'so_number')))
 
     # Open database connection
     db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME, use_unicode=True, charset="utf8")
@@ -608,15 +608,6 @@ def insert_data_soc(rec):
                               get_col_val(rec, 'insurance_insurance_verified')
     )
 
-    
-#    print (sql_soc)
-#    print (sql_dlvry)
-#    print (sql_patient)
-#    print (sql_odoc)
-#    print (sql_dgns)
-#    print (sql_rfrl)
-#    print (sql_insrnc)
-
     try:
         # Execute the SQL commands
         r = cursor.execute(sql_soc)
@@ -633,8 +624,8 @@ def insert_data_soc(rec):
         #print ('so_number: ', get_col_val(rec, 'so_number'), r, 'record inserted')
 
     except (MySQLdb.Error) as e:
+        print ('Error inserting record with SO #.' + str(get_col_val(rec, 'so_number')) )
         print (e)
-        print (sql_soc)
 
         # Rollback in case there is any error
         db.rollback()

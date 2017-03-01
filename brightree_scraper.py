@@ -6,6 +6,7 @@ import requests
 import xmltodict
 from btconfig import *
 from btdbutils import *
+from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
@@ -81,6 +82,8 @@ def process_data(username, password, browser):
 
 def main():
     """"""
+    print (datetime.now().strftime('%Y-%m-%d %H:%M:%S'), ' - Started')
+
     browser = webdriver.Firefox(firefox_binary=FirefoxBinary(
         firefox_path=FIREFOX_BIN
     ))
@@ -105,5 +108,4 @@ if __name__ == "__main__":
 
     main()
 
-    print ('done!')
-
+    print (datetime.now().strftime('%Y-%m-%d %H:%M:%S'), ' - Finished')
