@@ -174,8 +174,9 @@ def get_col_val(rec, key):
 
 def insert_data_so(rec):
     """"""
+    print ("Inserting data for SO #.", get_col_val(rec, 'so_number'))
     # Open database connection
-    db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME)
+    db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME, use_unicode=True, charset="utf8")
 
     # Prepare a cursor object using cursor() method
     cursor = db.cursor()
@@ -242,8 +243,10 @@ def insert_data_so(rec):
 
 def insert_data_soc(rec):
     """"""
+    print ("Inserting data for SO #.", get_col_val(rec, 'so_number'))
+
     # Open database connection
-    db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME)
+    db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME, use_unicode=True, charset="utf8")
 
     # Prepare a cursor object using cursor() method
     cursor = db.cursor()
