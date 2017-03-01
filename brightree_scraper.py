@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+
+import os
 import sys
 import csv
 import time 
@@ -16,6 +19,8 @@ if sys.version_info[0] == 3:
 else:
     import urlparse
 
+script_path = '/'.join(os.path.abspath(__file__).split('/')[:-1])
+users_filename = script_path + '/' + USERS_FILE
 
 def process_data(username, password, browser):
     """"""
@@ -66,7 +71,7 @@ def process_data(username, password, browser):
                 records = []
 
             # Save a local copy of the report (no required)
-            f = open(report_filename, "w")
+            f = open(script_path + '/' + report_filename, "w")
             f.write(report_contents)
             f.close()
 
@@ -82,17 +87,18 @@ def process_data(username, password, browser):
 
 def main():
     """"""
-    print (datetime.now().strftime('%Y-%m-%d %H:%M:%S'), ' - Started')
+    print (datetime.now().strftime('%Y-%m-%d %H:%M:%S'), ': Started')
 
-    browser = webdriver.Firefox(firefox_binary=FirefoxBinary(
-        firefox_path=FIREFOX_BIN
-    ))
+#    browser = webdriver.Firefox(firefox_binary=FirefoxBinary(
+#        firefox_path=FIREFOX_BIN
+#    ))
+    browser = webdriver.PhantomJS()
 
     browser.get(URL)
     time.sleep(5)
 
     users = []
-    with open(USERS_FILE, 'r') as users_file:
+    with open(users_filename, 'r') as users_file:
         users_rows = csv.reader(users_file)
         for u in users_rows:
             users.append(u) 
@@ -108,4 +114,4 @@ if __name__ == "__main__":
 
     main()
 
-    print (datetime.now().strftime('%Y-%m-%d %H:%M:%S'), ' - Finished')
+    print (datetime.now().strftime('%Y-%m-%d %H:%M:%S'), ': Finished')
