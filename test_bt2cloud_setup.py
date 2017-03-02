@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import unittest
 import MySQLdb
 from selenium import webdriver

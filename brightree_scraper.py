@@ -71,7 +71,7 @@ def process_data(username, password, browser):
                 records = []
 
             # Save a local copy of the report (no required)
-            f = open(script_path + '/' + report_filename, "w")
+            f = open(script_path + '/' + report_filename, "wb")
             f.write(report_contents)
             f.close()
 
