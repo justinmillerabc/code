@@ -185,8 +185,9 @@ def insert_data_so(rec):
                                         `so_date_created`,
                                         `so_created_by`,
                                         `so_branch_office`,
-                                        `so_status`,
                                         `so_location`,
+                                        `so_classification`,
+                                        `so_status`,
                                         `so_reference`,
                                         `so_confirm_date`,
                                         `work_in_progress_state`,
@@ -198,7 +199,7 @@ def insert_data_so(rec):
                                         `referral_name`,
                                         `referral_city`,
                                         `referral_state`)
-                                VALUES ("%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s",
+                                VALUES ("%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
                                         "%s", "%s", "%s", "%s", "%s", "%s", "%s"  ) 
     """ % (
 
@@ -206,8 +207,9 @@ def insert_data_so(rec):
                        get_col_val(rec, 'so_date_created'),
                        get_col_val(rec, 'so_created_by'),
                        get_col_val(rec, 'so_branch_office'),
-                       get_col_val(rec, 'so_status'),
                        get_col_val(rec, 'so_location'),
+                       get_col_val(rec, 'so_classification'),
+                       get_col_val(rec, 'so_status'),
                        get_col_val(rec, 'so_reference'),
                        get_col_val(rec, 'so_confirm_date'),
                        get_col_val(rec, 'work_in_progress_state'),
