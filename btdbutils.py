@@ -459,7 +459,7 @@ def get_col_val(rec, key):
 
 def insert_data_so(rec):
     """"""
-    print ("Inserting data for SO #." +  str(get_col_val(rec, 'so_number')))
+    print ("sales_order: inserting data for SO #." +  str(get_col_val(rec, 'so_number')))
     # Open database connection
     db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME, use_unicode=True, charset="utf8")
 
@@ -530,7 +530,7 @@ def insert_data_so(rec):
 
 def insert_data_soc(rec):
     """"""
-    print ("Inserting data for SO #." + str(get_col_val(rec, 'so_number')))
+    print ("sales_order_confirmed: inserting data for SO #." + str(get_col_val(rec, 'so_number')))
 
     # Open database connection
     db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME, use_unicode=True, charset="utf8")
