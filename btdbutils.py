@@ -142,6 +142,7 @@ SO_MAP = {
            'referral_doctor_group': 'ReferralDoctorGroup',
            'referral_facility_group': 'ReferralFacilityGroup',
            'insurance_pri_payor': 'InsurancePriPayor',
+           'insurance_pri_policy_x0023': 'InsurancePriPolicy_x0023_',
            'insurance_pri_policy_x0023_': 'InsurancePriPolicy_x0023_',
            'insurance_pri_policy_verified': 'InsurancePriPolicyVerified',
            'insurance_pri_pay_pct': 'InsurancePriPayPct',
@@ -222,6 +223,20 @@ SO_MAP = {
            'balances_balance': 'BalancesBalance',
            'balances_payments': 'BalancesPayments',
            'work_in_progress_assigned_to': 'WorkInProgressAssignedTo',
+           'sales_order_hold_cmn_not_logged': 'SalesOrderHoldCMNNotLogged',
+           'sales_order_hold_cmn_expired': 'SalesOrderHoldCMNExpired',
+           'sales_order_hold_par_not_logged': 'SalesOrderHoldPARNotLogged',
+           'sales_order_hold_par_expired': 'SalesOrderHoldPARExpired',
+           'sales_order_hold_manual_hold': 'SalesOrderHoldManualHold',
+           'sales_order_stop_pending_pickup': 'SalesOrderStopPendingPickup',
+           'sales_order_stop_multiple_pricing_options': 'SalesOrderStopMultiplePricingOptions',
+           'sales_order_stop_policy_expired': 'SalesOrderStopPolicyExpired',
+           'sales_order_stop_no_pricing_found': 'SalesOrderStopNoPricingFound',
+           'sales_order_stop_policy_changed': 'SalesOrderStopPolicyChanged',
+           'sales_order_stop_manual_stop_date': 'SalesOrderStopManualStopDate',
+           'sales_order_stop_automatic_eligibility_check': 'SalesOrderStopAutomaticEligibilityCheck',
+           'sales_order_stop_ineligible_policy': 'SalesOrderStopIneligiblePolicy',
+
 
            'par_number': 'PARNumber',
            'par_descr': 'PARDescr',
@@ -241,6 +256,7 @@ SO_MAP = {
            'par_purchase_quantity_limits_used_qty': 'PARPurchaseQuantityLimitsUsedQTY',
            'par_purchase_quantity_limits_adjusted_qty': 'PARPurchaseQuantityLimitsAdjustedQTY',
            'patient_key': 'PatientKey',
+           'sales_order_number': 'SalesOrderNumber',
            'insurance_pri_payor_id': 'InsurancePriPayorID',
            'cmncmn_form': 'CMNCMNForm',
            'cmncmn_exp': 'CMNCMNExp',
@@ -920,15 +936,116 @@ def insert_data_soc(rec):
 
 def insert_data_socitems(rec):
     """"""
-    print ("soc_items: inserting data for SO #." +  str(get_col_val(rec, 'so_number')))
+    print ("soc_items: inserting data for SO #." +  str(get_col_val(rec, 'sales_order_number')))
     # Open database connection
     db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME, use_unicode=True, charset="utf8")
 
     # Prepare a cursor object using cursor() method
     cursor = db.cursor()
 
-    sql = """
-    """
+    sql = """INSERT INTO `soc_items` (
+                                               `sales_order_number`,
+                                               `sales_order_detail_item_id`,
+                                               `sales_order_detail_item_name`,
+                                               `sales_order_detail_item_description`,
+                                               `sales_order_detail_stocking_uom`,
+                                               `sales_order_detail_original_dos`,
+                                               `sales_order_detail_special_pricing`,
+                                               `sales_order_detail_price_override`,
+                                               `sales_order_detail_qty`,
+                                               `sales_order_detail_bqty`,
+                                               `sales_order_detail_proc_code`,
+                                               `sales_order_detail_price_option`,
+                                               `sales_order_detail_modifier1`,
+                                               `sales_order_detail_modifier2`,
+                                               `sales_order_detail_modifier3`,
+                                               `sales_order_detail_modifier4`,
+                                               `sales_order_detail_charge`,
+                                               `sales_order_detail_allow`,
+                                               `sales_order_detail_taxable`,
+                                               `sales_order_detail_non_tax_reason`,
+                                               `sales_order_detail_sale_type`,
+                                               `sales_order_detail_item_group`,
+                                               `sales_order_detail_item_user1`,
+                                               `sales_order_detail_manual_convert_to_purchase_mctp`,
+                                               `sales_order_detail_mctp_charge`,
+                                               `sales_order_detail_mctp_allow`,
+                                               `sales_order_detail_mctp_modifier1`,
+                                               `sales_order_detail_mctp_modifier2`,
+                                               `sales_order_detail_mctp_modifier3`,
+                                               `sales_order_detail_mctp_modifier4`,
+                                               `sales_order_detail_mctp_period`,
+                                               `sales_order_detail_addtl_modifier1`,
+                                               `sales_order_detail_addtl_modifier2`,
+                                               `sales_order_detail_addtl_modifier3`,
+                                               `sales_order_detail_addtl_modifier4`,
+                                               `sales_order_detail_price_table`,
+                                               `sales_order_detail_price_option_name`,
+                                               `sales_order_detail_extended_charge_amount`,
+                                               `sales_order_detail_extended_allowance_amount`,
+                                               `sales_order_detail_cb_pricing`,
+                                               `sales_order_detail_cb_price_table_override`,
+                                               `sales_order_detail_cb_override`,
+                                               `sales_order_detail_messages`,
+                                               `sales_order_detail_default_vendor`,
+                                               `sales_order_detail_calories_per_day`,
+                                               `sales_order_detail_location`
+                              ) VALUES (
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
+                                               "%s", "%s", "%s", "%s", "%s", "%s" 
+                                       )
+    """ % (
+                              get_col_val(rec, 'sales_order_number'),
+                              get_col_val(rec, 'sales_order_detail_item_id'),
+                              get_col_val(rec, 'sales_order_detail_item_name'),
+                              get_col_val(rec, 'sales_order_detail_item_description'),
+                              get_col_val(rec, 'sales_order_detail_stocking_uom'),
+                              get_col_val(rec, 'sales_order_detail_original_dos'),
+                              get_col_val(rec, 'sales_order_detail_special_pricing'),
+                              get_col_val(rec, 'sales_order_detail_price_override'),
+                              get_col_val(rec, 'sales_order_detail_qty'),
+                              get_col_val(rec, 'sales_order_detail_bqty'),
+                              get_col_val(rec, 'sales_order_detail_proc_code'),
+                              get_col_val(rec, 'sales_order_detail_price_option'),
+                              get_col_val(rec, 'sales_order_detail_modifier1'),
+                              get_col_val(rec, 'sales_order_detail_modifier2'),
+                              get_col_val(rec, 'sales_order_detail_modifier3'),
+                              get_col_val(rec, 'sales_order_detail_modifier4'),
+                              get_col_val(rec, 'sales_order_detail_charge'),
+                              get_col_val(rec, 'sales_order_detail_allow'),
+                              get_col_val(rec, 'sales_order_detail_taxable'),
+                              get_col_val(rec, 'sales_order_detail_non_tax_reason'),
+                              get_col_val(rec, 'sales_order_detail_sale_type'),
+                              get_col_val(rec, 'sales_order_detail_item_group'),
+                              get_col_val(rec, 'sales_order_detail_item_user1'),
+                              get_col_val(rec, 'sales_order_detail_manual_convert_to_purchase_mctp'),
+                              get_col_val(rec, 'sales_order_detail_mctp_charge'),
+                              get_col_val(rec, 'sales_order_detail_mctp_allow'),
+                              get_col_val(rec, 'sales_order_detail_mctp_modifier1'),
+                              get_col_val(rec, 'sales_order_detail_mctp_modifier2'),
+                              get_col_val(rec, 'sales_order_detail_mctp_modifier3'),
+                              get_col_val(rec, 'sales_order_detail_mctp_modifier4'),
+                              get_col_val(rec, 'sales_order_detail_mctp_period'),
+                              get_col_val(rec, 'sales_order_detail_addtl_modifier1'),
+                              get_col_val(rec, 'sales_order_detail_addtl_modifier2'),
+                              get_col_val(rec, 'sales_order_detail_addtl_modifier3'),
+                              get_col_val(rec, 'sales_order_detail_addtl_modifier4'),
+                              get_col_val(rec, 'sales_order_detail_price_table'),
+                              get_col_val(rec, 'sales_order_detail_price_option_name'),
+                              get_col_val(rec, 'sales_order_detail_extended_charge_amount'),
+                              get_col_val(rec, 'sales_order_detail_extended_allowance_amount'),
+                              get_col_val(rec, 'sales_order_detail_cb_pricing'),
+                              get_col_val(rec, 'sales_order_detail_cb_price_table_override'),
+                              get_col_val(rec, 'sales_order_detail_cb_override'),
+                              get_col_val(rec, 'sales_order_detail_messages'),
+                              get_col_val(rec, 'sales_order_detail_default_vendor'),
+                              get_col_val(rec, 'sales_order_detail_calories_per_day'),
+                              get_col_val(rec, 'sales_order_detail_location')
+    )
+
 
     try:
         # Execute the SQL commands
@@ -940,7 +1057,7 @@ def insert_data_socitems(rec):
         #print ('so_number: ', get_col_val(rec, 'so_number'), r, 'record inserted')
 
     except (MySQLdb.Error) as e:
-        print ('Error inserting record with SO #.' + str(get_col_val(rec, 'so_number')) )
+        print ('Error inserting record with SO #.' + str(get_col_val(rec, 'sales_order_number')) )
         print (e) 
 
         # Rollback in case there is any error
@@ -952,15 +1069,27 @@ def insert_data_socitems(rec):
 
 def insert_data_sovoid(rec):
     """"""
-    print ("so_void: inserting data for SO #." +  str(get_col_val(rec, 'so_number')))
+    print ("so_void: inserting data for SO #." +  str(get_col_val(rec, 'sales_order_void_voided_sales_order_number')))
     # Open database connection
     db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME, use_unicode=True, charset="utf8")
 
     # Prepare a cursor object using cursor() method
     cursor = db.cursor()
 
-    sql = """
-    """
+    sql = """INSERT INTO `so_void` (
+                                               `sales_order_void_voided_sales_order_number`,
+                                               `sales_order_void_void_reason`,
+                                               `sales_order_void_voided_by`,
+                                               `sales_order_void_voided_date`
+                              ) VALUES (
+                                               "%s", "%s", "%s", "%s"
+                              )
+    """ % (
+                              get_col_val(rec, 'sales_order_void_voided_sales_order_number'),
+                              get_col_val(rec, 'sales_order_void_void_reason'),
+                              get_col_val(rec, 'sales_order_void_voided_by'),
+                              get_col_val(rec, 'sales_order_void_voided_date')
+    )
 
     try:
         # Execute the SQL commands
@@ -972,7 +1101,7 @@ def insert_data_sovoid(rec):
         #print ('so_number: ', get_col_val(rec, 'so_number'), r, 'record inserted')
 
     except (MySQLdb.Error) as e:
-        print ('Error inserting record with SO #.' + str(get_col_val(rec, 'so_number')) )
+        print ('Error inserting record with SO #.' + str(get_col_val(rec, 'sales_order_void_voided_sales_order_number')) )
         print (e) 
 
         # Rollback in case there is any error
@@ -991,8 +1120,50 @@ def insert_data_rcmclosed(rec):
     # Prepare a cursor object using cursor() method
     cursor = db.cursor()
 
-    sql = """
-    """
+    sql = """INSERT INTO `rcm_closed` (
+                                               `activity_task_id`,
+                                               `activity_type`,
+                                               `activity`,
+                                               `priority`,
+                                               `assigned_to`,
+                                               `amount`,
+                                               `task_status`,
+                                               `create_date`,
+                                               `closed_date`,
+                                               `patient_name`,
+                                               `patient_id`,
+                                               `patient_branch`,
+                                               `insurance_id`,
+                                               `insurance_name`,
+                                               `note`,
+                                               `work_item_name`,
+                                               `work_item_id`,
+                                               `work_item_branch`
+                              ) VALUES (
+                                               "%s", "%s", "%s", "%s", "%s", 
+                                               "%s", "%s", "%s", "%s", "%s", 
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s"
+                                       )
+    """ % (
+                              get_col_val(rec, 'activity_task_id'),
+                              get_col_val(rec, 'activity_type'),
+                              get_col_val(rec, 'activity'),
+                              get_col_val(rec, 'priority'),
+                              get_col_val(rec, 'assigned_to'),
+                              get_col_val(rec, 'amount'),
+                              get_col_val(rec, 'task_status'),
+                              get_col_val(rec, 'create_date'),
+                              get_col_val(rec, 'closed_date'),
+                              get_col_val(rec, 'patient_name'),
+                              get_col_val(rec, 'patient_id'),
+                              get_col_val(rec, 'patient_branch'),
+                              get_col_val(rec, 'insurance_id'),
+                              get_col_val(rec, 'insurance_name'),
+                              get_col_val(rec, 'note'),
+                              get_col_val(rec, 'work_item_name'),
+                              get_col_val(rec, 'work_item_id'),
+                              get_col_val(rec, 'work_item_branch')
+    )
 
     try:
         # Execute the SQL commands
@@ -1023,8 +1194,80 @@ def insert_data_parscreated(rec):
     # Prepare a cursor object using cursor() method
     cursor = db.cursor()
 
-    sql = """
-    """
+    sql = """INSERT INTO `pars_created` (
+                                               `par_number`,
+                                               `par_descr`,
+                                               `par_exclude_from_par_report`,
+                                               `par_exclude_from_claim`,
+                                               `par_status`,
+                                               `par_create_date`,
+                                               `par_created_by`,
+                                               `par_logged_by`,
+                                               `par_insurance`,
+                                               `par_branch`,
+                                               `par_printed_by`,
+                                               `par_faxed_by`,
+                                               `par_purchase_quantity_limits_proc_code`,
+                                               `par_purchase_quantity_limits_approved_qty`,
+                                               `par_purchase_quantity_limits_returned_qty`,
+                                               `par_purchase_quantity_limits_used_qty`,
+                                               `par_purchase_quantity_limits_adjusted_qty`,
+                                               `sales_order_number`,
+                                               `patient_id`,
+                                               `patient_key`,
+                                               `insurance_pri_payor`,
+                                               `insurance_pri_payor_id`,
+                                               `insurance_pri_policy_x0023`,
+                                               `cmncmn_form`,
+                                               `cmncmn_exp`,
+                                               `cmncmn_init`,
+                                               `cmncmn_status`,
+                                               `cmncmn_log_date`,
+                                               `cmncmn_lengthof_need`,
+                                               `cmn_excludefrom_cmn_report`,
+                                               `cmncmn_faxed_by`,
+                                               `cmncmn_placeholder`
+                              ) VALUES (
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
+                                               "%s", "%s"
+                                        )
+    """ % (
+                              get_col_val(rec, 'par_number'),
+                              get_col_val(rec, 'par_descr'),
+                              get_col_val(rec, 'par_exclude_from_par_report'),
+                              get_col_val(rec, 'par_exclude_from_claim'),
+                              get_col_val(rec, 'par_status'),
+                              get_col_val(rec, 'par_create_date'),
+                              get_col_val(rec, 'par_created_by'),
+                              get_col_val(rec, 'par_logged_by'),
+                              get_col_val(rec, 'par_insurance'),
+                              get_col_val(rec, 'par_branch'),
+                              get_col_val(rec, 'par_printed_by'),
+                              get_col_val(rec, 'par_faxed_by'),
+                              get_col_val(rec, 'par_purchase_quantity_limits_proc_code'),
+                              get_col_val(rec, 'par_purchase_quantity_limits_approved_qty'),
+                              get_col_val(rec, 'par_purchase_quantity_limits_returned_qty'),
+                              get_col_val(rec, 'par_purchase_quantity_limits_used_qty'),
+                              get_col_val(rec, 'par_purchase_quantity_limits_adjusted_qty'),
+                              get_col_val(rec, 'sales_order_number'),
+                              get_col_val(rec, 'patient_id'),
+                              get_col_val(rec, 'patient_key'),
+                              get_col_val(rec, 'insurance_pri_payor'),
+                              get_col_val(rec, 'insurance_pri_payor_id'),
+                              get_col_val(rec, 'insurance_pri_policy_x0023'),
+                              get_col_val(rec, 'cmncmn_form'),
+                              get_col_val(rec, 'cmncmn_exp'),
+                              get_col_val(rec, 'cmncmn_init'),
+                              get_col_val(rec, 'cmncmn_status'),
+                              get_col_val(rec, 'cmncmn_log_date'),
+                              get_col_val(rec, 'cmncmn_lengthof_need'),
+                              get_col_val(rec, 'cmn_excludefrom_cmn_report'),
+                              get_col_val(rec, 'cmncmn_faxed_by'),
+                              get_col_val(rec, 'cmncmn_placeholder')
+    )
+
 
     try:
         # Execute the SQL commands
@@ -1055,8 +1298,83 @@ def insert_data_parslogged(rec):
     # Prepare a cursor object using cursor() method
     cursor = db.cursor()
 
-    sql = """
-    """
+    sql = """INSERT INTO `pars_logged` (
+                                               `par_number`,
+                                               `par_descr`,
+                                               `par_init`,
+                                               `par_exclude_from_par_report`,
+                                               `par_exclude_from_claim`,
+                                               `par_status`,
+                                               `par_create_date`,
+                                               `par_created_by`,
+                                               `par_logged_date`,
+                                               `par_logged_by`,
+                                               `par_insurance`,
+                                               `par_branch`,
+                                               `par_printed_by`,
+                                               `par_faxed_by`,
+                                               `par_purchase_quantity_limits_proc_code`,
+                                               `par_purchase_quantity_limits_approved_qty`,
+                                               `par_purchase_quantity_limits_returned_qty`,
+                                               `par_purchase_quantity_limits_used_qty`,
+                                               `par_purchase_quantity_limits_adjusted_qty`,
+                                               `sales_order_number`,
+                                               `patient_id`,
+                                               `patient_key`,
+                                               `insurance_pri_payor`,
+                                               `insurance_pri_payor_id`,
+                                               `insurance_pri_policy_x0023`,
+                                               `cmncmn_form`,
+                                               `cmncmn_exp`,
+                                               `cmncmn_init`,
+                                               `cmncmn_status`,
+                                               `cmncmn_log_date`,
+                                               `cmncmn_lengthof_need`,
+                                               `cmn_excludefrom_cmn_report`,
+                                               `cmncmn_faxed_by`,
+                                               `cmncmn_placeholder`
+                              ) VALUES (
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
+                                               "%s", "%s", "%s", "%s"
+                                       )
+    """ % (
+                              get_col_val(rec, 'par_number'),
+                              get_col_val(rec, 'par_descr'),
+                              get_col_val(rec, 'par_init'),
+                              get_col_val(rec, 'par_exclude_from_par_report'),
+                              get_col_val(rec, 'par_exclude_from_claim'),
+                              get_col_val(rec, 'par_status'),
+                              get_col_val(rec, 'par_create_date'),
+                              get_col_val(rec, 'par_created_by'),
+                              get_col_val(rec, 'par_logged_date'),
+                              get_col_val(rec, 'par_logged_by'),
+                              get_col_val(rec, 'par_insurance'),
+                              get_col_val(rec, 'par_branch'),
+                              get_col_val(rec, 'par_printed_by'),
+                              get_col_val(rec, 'par_faxed_by'),
+                              get_col_val(rec, 'par_purchase_quantity_limits_proc_code'),
+                              get_col_val(rec, 'par_purchase_quantity_limits_approved_qty'),
+                              get_col_val(rec, 'par_purchase_quantity_limits_returned_qty'),
+                              get_col_val(rec, 'par_purchase_quantity_limits_used_qty'),
+                              get_col_val(rec, 'par_purchase_quantity_limits_adjusted_qty'),
+                              get_col_val(rec, 'sales_order_number'),
+                              get_col_val(rec, 'patient_id'),
+                              get_col_val(rec, 'patient_key'),
+                              get_col_val(rec, 'insurance_pri_payor'),
+                              get_col_val(rec, 'insurance_pri_payor_id'),
+                              get_col_val(rec, 'insurance_pri_policy_x0023'),
+                              get_col_val(rec, 'cmncmn_form'),
+                              get_col_val(rec, 'cmncmn_exp'),
+                              get_col_val(rec, 'cmncmn_init'),
+                              get_col_val(rec, 'cmncmn_status'),
+                              get_col_val(rec, 'cmncmn_log_date'),
+                              get_col_val(rec, 'cmncmn_lengthof_need'),
+                              get_col_val(rec, 'cmn_excludefrom_cmn_report'),
+                              get_col_val(rec, 'cmncmn_faxed_by'),
+                              get_col_val(rec, 'cmncmn_placeholder')
+    )
 
     try:
         # Execute the SQL commands
@@ -1087,9 +1405,138 @@ def insert_data_payments(rec):
     # Prepare a cursor object using cursor() method
     cursor = db.cursor()
 
-    sql = """
-    """
-
+    sql = """INSERT INTO `payments` (
+                                               `payment_id`,
+                                               `payment_check_x002_f_reference`,
+                                               `payment_type`,
+                                               `payment_created_by`,
+                                               `payment_create_date`,
+                                               `payment_date`,
+                                               `payment_post_date`,
+                                               `payment_posted_by`,
+                                               `payment_description`,
+                                               `payment_amount`,
+                                               `payment_gl_period`,
+                                               `payment_gl_year`,
+                                               `payment_gl_start_date`,
+                                               `payment_gl_end_date`,
+                                               `receipt_type`,
+                                               `receipt_check_x002_f_reference`,
+                                               `receipt_note`,
+                                               `deposit_created_by`,
+                                               `deposit_posted_by`,
+                                               `deposit_reference`,
+                                               `deposit_description`,
+                                               `invoice_number`,
+                                               `invoice_status`,
+                                               `invoice_sales_order_number`,
+                                               `invoice_date_created`,
+                                               `invoice_dateof_service`,
+                                               `invoice_holdfromprinting_x002_f_submission`,
+                                               `invoice_reprint_x002_f_re_submit_claim`,
+                                               `invoice_branch`,
+                                               `invoice_note`,
+                                               `invoice_so_created_by`,
+                                               `invoice_so_confirmed_by`,
+                                               `invoice_balances_charge_total`,
+                                               `invoice_balances_allow_total`,
+                                               `invoice_balances_tax_total`,
+                                               `invoice_balances_adjustments`,
+                                               `invoice_balances_payments`,
+                                               `invoice_balances_balance`,
+                                               `invoice_biller_x002_f_collector`,
+                                               `invoice_last_date_worked`,
+                                               `invoice_follow_up_date`,
+                                               `invoice_collection_type`,
+                                               `invoice_collect_action_x002_f_status`,
+                                               `invoice_pro_med_status_code`,
+                                               `invoice_pro_med_status_code_date`,
+                                               `invoice_appeals_due_date`,
+                                               `sales_order_so_number`,
+                                               `patient_id`,
+                                               `policy_payor_name`,
+                                               `policy_payor_id`,
+                                               `policy_x0023`,
+                                               `policy_pay`,
+                                               `invoice_detail_id`,
+                                               `invoice_detail_item_id`,
+                                               `marketing_rep_last_name`,
+                                               `marketing_rep_first_name`,
+                                               `related_invoice_primary_invoice_nbr`,
+                                               `related_invoice_secondary_invoice_nbr`,
+                                               `related_invoice_tertiary_invoice_nbr`,
+                                               `related_invoice_patient_invoice_nbr`
+                              ) VALUES (
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s"
+                                       )
+    """ % (
+                              get_col_val(rec, 'payment_id'),
+                              get_col_val(rec, 'payment_check_x002_f_reference'),
+                              get_col_val(rec, 'payment_type'),
+                              get_col_val(rec, 'payment_created_by'),
+                              get_col_val(rec, 'payment_create_date'),
+                              get_col_val(rec, 'payment_date'),
+                              get_col_val(rec, 'payment_post_date'),
+                              get_col_val(rec, 'payment_posted_by'),
+                              get_col_val(rec, 'payment_description'),
+                              get_col_val(rec, 'payment_amount'),
+                              get_col_val(rec, 'payment_gl_period'),
+                              get_col_val(rec, 'payment_gl_year'),
+                              get_col_val(rec, 'payment_gl_start_date'),
+                              get_col_val(rec, 'payment_gl_end_date'),
+                              get_col_val(rec, 'receipt_type'),
+                              get_col_val(rec, 'receipt_check_x002_f_reference'),
+                              get_col_val(rec, 'receipt_note'),
+                              get_col_val(rec, 'deposit_created_by'),
+                              get_col_val(rec, 'deposit_posted_by'),
+                              get_col_val(rec, 'deposit_reference'),
+                              get_col_val(rec, 'deposit_description'),
+                              get_col_val(rec, 'invoice_number'),
+                              get_col_val(rec, 'invoice_status'),
+                              get_col_val(rec, 'invoice_sales_order_number'),
+                              get_col_val(rec, 'invoice_date_created'),
+                              get_col_val(rec, 'invoice_dateof_service'),
+                              get_col_val(rec, 'invoice_holdfromprinting_x002_f_submission'),
+                              get_col_val(rec, 'invoice_reprint_x002_f_re_submit_claim'),
+                              get_col_val(rec, 'invoice_branch'),
+                              get_col_val(rec, 'invoice_note'),
+                              get_col_val(rec, 'invoice_so_created_by'),
+                              get_col_val(rec, 'invoice_so_confirmed_by'),
+                              get_col_val(rec, 'invoice_balances_charge_total'),
+                              get_col_val(rec, 'invoice_balances_allow_total'),
+                              get_col_val(rec, 'invoice_balances_tax_total'),
+                              get_col_val(rec, 'invoice_balances_adjustments'),
+                              get_col_val(rec, 'invoice_balances_payments'),
+                              get_col_val(rec, 'invoice_balances_balance'),
+                              get_col_val(rec, 'invoice_biller_x002_f_collector'),
+                              get_col_val(rec, 'invoice_last_date_worked'),
+                              get_col_val(rec, 'invoice_follow_up_date'),
+                              get_col_val(rec, 'invoice_collection_type'),
+                              get_col_val(rec, 'invoice_collect_action_x002_f_status'),
+                              get_col_val(rec, 'invoice_pro_med_status_code'),
+                              get_col_val(rec, 'invoice_pro_med_status_code_date'),
+                              get_col_val(rec, 'invoice_appeals_due_date'),
+                              get_col_val(rec, 'sales_order_so_number'),
+                              get_col_val(rec, 'patient_id'),
+                              get_col_val(rec, 'policy_payor_name'),
+                              get_col_val(rec, 'policy_payor_id'),
+                              get_col_val(rec, 'policy_x0023'),
+                              get_col_val(rec, 'policy_pay'),
+                              get_col_val(rec, 'invoice_detail_id'),
+                              get_col_val(rec, 'invoice_detail_item_id'),
+                              get_col_val(rec, 'marketing_rep_last_name'),
+                              get_col_val(rec, 'marketing_rep_first_name'),
+                              get_col_val(rec, 'related_invoice_primary_invoice_nbr'),
+                              get_col_val(rec, 'related_invoice_secondary_invoice_nbr'),
+                              get_col_val(rec, 'related_invoice_tertiary_invoice_nbr'),
+                              get_col_val(rec, 'related_invoice_patient_invoice_nbr')
+    )
+    
     try:
         # Execute the SQL commands
         r = cursor.execute(sql)
@@ -1112,15 +1559,205 @@ def insert_data_payments(rec):
 
 def insert_data_invoicescreated(rec):
     """"""
-    print ("invoices_created: inserting data for SO #." +  str(get_col_val(rec, 'so_number')))
+    print ("invoices_created: inserting data for Invoice #." +  str(get_col_val(rec, 'invoice_number')))
     # Open database connection
     db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME, use_unicode=True, charset="utf8")
 
     # Prepare a cursor object using cursor() method
     cursor = db.cursor()
 
-    sql = """
-    """
+    sql = """INSERT INTO `invoices_created` (
+                                               `invoice_number`,
+                                               `invoice_status`,
+                                               `invoice_sales_order_number`,
+                                               `invoice_date_created`,
+                                               `invoice_dateof_service`,
+                                               `invoice_holdfromprinting_x002_f_submission`,
+                                               `invoice_medicare_deductible_hold`,
+                                               `invoice_reprint_x002_f_re_submit_claim`,
+                                               `invoice_span_date_hold`,
+                                               `invoice_branch`,
+                                               `invoice_so_reference`,
+                                               `invoice_branch_group`,
+                                               `invoice_box19`,
+                                               `invoice_so_place_of_service`,
+                                               `invoice_so_classification`,
+                                               `invoice_so_note`,
+                                               `invoice_so_manual_hold_reason`,
+                                               `invoice_so_created_by`,
+                                               `invoice_so_confirmed_by`,
+                                               `invoice_submission_type`,
+                                               `invoice_key`,
+                                               `invoice_balances_charge_total`,
+                                               `invoice_balances_allow_total`,
+                                               `invoice_balances_tax_total`,
+                                               `invoice_balances_adjustments`,
+                                               `invoice_balances_payments`,
+                                               `invoice_balances_balance`,
+                                               `patient_id`,
+                                               `policy_payor_name`,
+                                               `policy_payor_id`,
+                                               `policy_x0023`,
+                                               `policy_group_x0023`,
+                                               `policy_pay`,
+                                               `policy_claim_form`,
+                                               `policy_payor_level`,
+                                               `policy_plan_type`,
+                                               `policy_do_not_print_secondary_claims`,
+                                               `invoice_detail_item_id`,
+                                               `invoice_detail_item_name`,
+                                               `invoice_detail_dos_from`,
+                                               `invoice_detail_dos_to`,
+                                               `invoice_detail_billing_period`,
+                                               `invoice_detail_reprint_x002_f_resubmit_item`,
+                                               `invoice_detail_charge`,
+                                               `invoice_detail_allow`,
+                                               `invoice_detail_tax`,
+                                               `invoice_detail_payments`,
+                                               `invoice_detail_balance`,
+                                               `invoice_detail_qty`,
+                                               `invoice_detail_inventory_qty`,
+                                               `invoice_detail_proc_code`,
+                                               `invoice_detail_modifier1`,
+                                               `invoice_detail_modifier2`,
+                                               `invoice_detail_modifier3`,
+                                               `invoice_detail_modifier4`,
+                                               `invoice_detail_abn_proc_code`,
+                                               `invoice_detail_price_type`,
+                                               `invoice_detail_so_item_note`,
+                                               `invoice_detail_par_number`,
+                                               `marketing_rep_full_name`,
+                                               `ordering_doctor_key`,
+                                               `ordering_doctor_npi`,
+                                               `serial_numbers_serial_number`,
+                                               `sales_order_hold_cmn_not_logged`,
+                                               `sales_order_hold_cmn_expired`,
+                                               `sales_order_hold_par_not_logged`,
+                                               `sales_order_hold_par_expired`,
+                                               `sales_order_hold_manual_hold`,
+                                               `sales_order_stop_pending_pickup`,
+                                               `sales_order_stop_multiple_pricing_options`,
+                                               `sales_order_stop_policy_expired`,
+                                               `sales_order_stop_no_pricing_found`,
+                                               `sales_order_stop_policy_changed`,
+                                               `sales_order_stop_manual_stop_date`,
+                                               `work_in_progress_wip_state`,
+                                               `work_in_progress_assigned_to`,
+                                               `work_in_progress_completed`,
+                                               `work_in_progress_wip_days_in_state`,
+                                               `primary_invoice_primary_invoice_number`,
+                                               `primary_invoice_primary_insurance_name`,
+                                               `secondary_invoice_secondary_invoice_number`,
+                                               `secondary_invoice_secondary_insurance_name`,
+                                               `tertiary_invoice_tertiary_invoice_number`,
+                                               `tertiary_invoice_tertiary_insurance_name`,
+                                               `patient_invoice_patient_invoice_number`,
+                                               `patient_invoice_patient_insurance_name`,
+                                               `responsible_party_relationship`,
+                                               `responsible_party_phone`,
+                                               `responsible_party_email_address`
+                              ) VALUES (
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s"
+                                       )
+    """ % (
+                              get_col_val(rec, 'invoice_number'),
+                              get_col_val(rec, 'invoice_status'),
+                              get_col_val(rec, 'invoice_sales_order_number'),
+                              get_col_val(rec, 'invoice_date_created'),
+                              get_col_val(rec, 'invoice_dateof_service'),
+                              get_col_val(rec, 'invoice_holdfromprinting_x002_f_submission'),
+                              get_col_val(rec, 'invoice_medicare_deductible_hold'),
+                              get_col_val(rec, 'invoice_reprint_x002_f_re_submit_claim'),
+                              get_col_val(rec, 'invoice_span_date_hold'),
+                              get_col_val(rec, 'invoice_branch'),
+                              get_col_val(rec, 'invoice_so_reference'),
+                              get_col_val(rec, 'invoice_branch_group'),
+                              get_col_val(rec, 'invoice_box19'),
+                              get_col_val(rec, 'invoice_so_place_of_service'),
+                              get_col_val(rec, 'invoice_so_classification'),
+                              get_col_val(rec, 'invoice_so_note'),
+                              get_col_val(rec, 'invoice_so_manual_hold_reason'),
+                              get_col_val(rec, 'invoice_so_created_by'),
+                              get_col_val(rec, 'invoice_so_confirmed_by'),
+                              get_col_val(rec, 'invoice_submission_type'),
+                              get_col_val(rec, 'invoice_key'),
+                              get_col_val(rec, 'invoice_balances_charge_total'),
+                              get_col_val(rec, 'invoice_balances_allow_total'),
+                              get_col_val(rec, 'invoice_balances_tax_total'),
+                              get_col_val(rec, 'invoice_balances_adjustments'),
+                              get_col_val(rec, 'invoice_balances_payments'),
+                              get_col_val(rec, 'invoice_balances_balance'),
+                              get_col_val(rec, 'patient_id'),
+                              get_col_val(rec, 'policy_payor_name'),
+                              get_col_val(rec, 'policy_payor_id'),
+                              get_col_val(rec, 'policy_x0023'),
+                              get_col_val(rec, 'policy_group_x0023'),
+                              get_col_val(rec, 'policy_pay'),
+                              get_col_val(rec, 'policy_claim_form'),
+                              get_col_val(rec, 'policy_payor_level'),
+                              get_col_val(rec, 'policy_plan_type'),
+                              get_col_val(rec, 'policy_do_not_print_secondary_claims'),
+                              get_col_val(rec, 'invoice_detail_item_id'),
+                              get_col_val(rec, 'invoice_detail_item_name'),
+                              get_col_val(rec, 'invoice_detail_dos_from'),
+                              get_col_val(rec, 'invoice_detail_dos_to'),
+                              get_col_val(rec, 'invoice_detail_billing_period'),
+                              get_col_val(rec, 'invoice_detail_reprint_x002_f_resubmit_item'),
+                              get_col_val(rec, 'invoice_detail_charge'),
+                              get_col_val(rec, 'invoice_detail_allow'),
+                              get_col_val(rec, 'invoice_detail_tax'),
+                              get_col_val(rec, 'invoice_detail_payments'),
+                              get_col_val(rec, 'invoice_detail_balance'),
+                              get_col_val(rec, 'invoice_detail_qty'),
+                              get_col_val(rec, 'invoice_detail_inventory_qty'),
+                              get_col_val(rec, 'invoice_detail_proc_code'),
+                              get_col_val(rec, 'invoice_detail_modifier1'),
+                              get_col_val(rec, 'invoice_detail_modifier2'),
+                              get_col_val(rec, 'invoice_detail_modifier3'),
+                              get_col_val(rec, 'invoice_detail_modifier4'),
+                              get_col_val(rec, 'invoice_detail_abn_proc_code'),
+                              get_col_val(rec, 'invoice_detail_price_type'),
+                              get_col_val(rec, 'invoice_detail_so_item_note'),
+                              get_col_val(rec, 'invoice_detail_par_number'),
+                              get_col_val(rec, 'marketing_rep_full_name'),
+                              get_col_val(rec, 'ordering_doctor_key'),
+                              get_col_val(rec, 'ordering_doctor_npi'),
+                              get_col_val(rec, 'serial_numbers_serial_number'),
+                              get_col_val(rec, 'sales_order_hold_cmn_not_logged'),
+                              get_col_val(rec, 'sales_order_hold_cmn_expired'),
+                              get_col_val(rec, 'sales_order_hold_par_not_logged'),
+                              get_col_val(rec, 'sales_order_hold_par_expired'),
+                              get_col_val(rec, 'sales_order_hold_manual_hold'),
+                              get_col_val(rec, 'sales_order_stop_pending_pickup'),
+                              get_col_val(rec, 'sales_order_stop_multiple_pricing_options'),
+                              get_col_val(rec, 'sales_order_stop_policy_expired'),
+                              get_col_val(rec, 'sales_order_stop_no_pricing_found'),
+                              get_col_val(rec, 'sales_order_stop_policy_changed'),
+                              get_col_val(rec, 'sales_order_stop_manual_stop_date'),
+                              get_col_val(rec, 'work_in_progress_wip_state'),
+                              get_col_val(rec, 'work_in_progress_assigned_to'),
+                              get_col_val(rec, 'work_in_progress_completed'),
+                              get_col_val(rec, 'work_in_progress_wip_days_in_state'),
+                              get_col_val(rec, 'primary_invoice_primary_invoice_number'),
+                              get_col_val(rec, 'primary_invoice_primary_insurance_name'),
+                              get_col_val(rec, 'secondary_invoice_secondary_invoice_number'),
+                              get_col_val(rec, 'secondary_invoice_secondary_insurance_name'),
+                              get_col_val(rec, 'tertiary_invoice_tertiary_invoice_number'),
+                              get_col_val(rec, 'tertiary_invoice_tertiary_insurance_name'),
+                              get_col_val(rec, 'patient_invoice_patient_invoice_number'),
+                              get_col_val(rec, 'patient_invoice_patient_insurance_name'),
+                              get_col_val(rec, 'responsible_party_relationship'),
+                              get_col_val(rec, 'responsible_party_phone'),
+                              get_col_val(rec, 'responsible_party_email_address')
+    )
 
     try:
         # Execute the SQL commands
@@ -1144,15 +1781,100 @@ def insert_data_invoicescreated(rec):
 
 def insert_data_invoicesstatus(rec):
     """"""
-    print ("invoices_status: inserting data for SO #." +  str(get_col_val(rec, 'so_number')))
+    print ("invoices_status: inserting data for Invoice #." +  str(get_col_val(rec, 'invoice_number')))
     # Open database connection
     db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME, use_unicode=True, charset="utf8")
 
     # Prepare a cursor object using cursor() method
     cursor = db.cursor()
 
-    sql = """
-    """
+    sql = """INSERT INTO `InvoicesStatus` (
+                                               `invoice_number`,
+                                               `invoice_status`,
+                                               `invoice_sales_order_number`,
+                                               `invoice_holdfromprinting_x002_f_submission`,
+                                               `invoice_medicare_deductible_hold`,
+                                               `invoice_user_manual_hold`,
+                                               `invoice_holdfrom_billing_statement`,
+                                               `invoice_so_manual_hold_reason`,
+                                               `invoice_biller_x002_f_collector`,
+                                               `invoice_last_date_worked`,
+                                               `invoice_follow_up_date`,
+                                               `invoice_collection_type`,
+                                               `invoice_collect_action_x002_f_status`,
+                                               `invoice_pro_med_status_code`,
+                                               `invoice_pro_med_status_code_date`,
+                                               `invoice_appeals_due_date`,
+                                               `balances_charge_total`,
+                                               `balances_allow_total`,
+                                               `balances_tax_total`,
+                                               `balances_adjustments`,
+                                               `balances_balance`,
+                                               `balances_payments`,
+                                               `sales_order_hold_cmn_not_logged`,
+                                               `sales_order_hold_cmn_expired`,
+                                               `sales_order_hold_par_not_logged`,
+                                               `sales_order_hold_par_expired`,
+                                               `sales_order_hold_manual_hold`,
+                                               `sales_order_stop_pending_pickup`,
+                                               `sales_order_stop_multiple_pricing_options`,
+                                               `sales_order_stop_policy_expired`,
+                                               `sales_order_stop_no_pricing_found`,
+                                               `sales_order_stop_policy_changed`,
+                                               `sales_order_stop_manual_stop_date`,
+                                               `sales_order_stop_automatic_eligibility_check`,
+                                               `sales_order_stop_ineligible_policy`,
+                                               `work_in_progress_wip_state`,
+                                               `work_in_progress_assigned_to`,
+                                               `work_in_progress_completed`,
+                                               `work_in_progress_wip_days_in_state`
+                              ) VALUES (
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s"
+                                       )
+    """ % (
+                              get_col_val(rec, 'invoice_number'),
+                              get_col_val(rec, 'invoice_status'),
+                              get_col_val(rec, 'invoice_sales_order_number'),
+                              get_col_val(rec, 'invoice_holdfromprinting_x002_f_submission'),
+                              get_col_val(rec, 'invoice_medicare_deductible_hold'),
+                              get_col_val(rec, 'invoice_user_manual_hold'),
+                              get_col_val(rec, 'invoice_holdfrom_billing_statement'),
+                              get_col_val(rec, 'invoice_so_manual_hold_reason'),
+                              get_col_val(rec, 'invoice_biller_x002_f_collector'),
+                              get_col_val(rec, 'invoice_last_date_worked'),
+                              get_col_val(rec, 'invoice_follow_up_date'),
+                              get_col_val(rec, 'invoice_collection_type'),
+                              get_col_val(rec, 'invoice_collect_action_x002_f_status'),
+                              get_col_val(rec, 'invoice_pro_med_status_code'),
+                              get_col_val(rec, 'invoice_pro_med_status_code_date'),
+                              get_col_val(rec, 'invoice_appeals_due_date'),
+                              get_col_val(rec, 'balances_charge_total'),
+                              get_col_val(rec, 'balances_allow_total'),
+                              get_col_val(rec, 'balances_tax_total'),
+                              get_col_val(rec, 'balances_adjustments'),
+                              get_col_val(rec, 'balances_balance'),
+                              get_col_val(rec, 'balances_payments'),
+                              get_col_val(rec, 'sales_order_hold_cmn_not_logged'),
+                              get_col_val(rec, 'sales_order_hold_cmn_expired'),
+                              get_col_val(rec, 'sales_order_hold_par_not_logged'),
+                              get_col_val(rec, 'sales_order_hold_par_expired'),
+                              get_col_val(rec, 'sales_order_hold_manual_hold'),
+                              get_col_val(rec, 'sales_order_stop_pending_pickup'),
+                              get_col_val(rec, 'sales_order_stop_multiple_pricing_options'),
+                              get_col_val(rec, 'sales_order_stop_policy_expired'),
+                              get_col_val(rec, 'sales_order_stop_no_pricing_found'),
+                              get_col_val(rec, 'sales_order_stop_policy_changed'),
+                              get_col_val(rec, 'sales_order_stop_manual_stop_date'),
+                              get_col_val(rec, 'sales_order_stop_automatic_eligibility_check'),
+                              get_col_val(rec, 'sales_order_stop_ineligible_policy'),
+                              get_col_val(rec, 'work_in_progress_wip_state'),
+                              get_col_val(rec, 'work_in_progress_assigned_to'),
+                              get_col_val(rec, 'work_in_progress_completed'),
+                              get_col_val(rec, 'work_in_progress_wip_days_in_state')
+    )
 
     try:
         # Execute the SQL commands
