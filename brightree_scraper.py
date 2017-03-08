@@ -20,7 +20,10 @@ else:
     import urlparse
 
 script_path = '/'.join(os.path.abspath(__file__).split('/')[:-1])
+xmlfiles_path = '/'.join(os.path.abspath(__file__).split('/')[:-1]) + '/' + XML_FILES_FOLDER
 users_filename = script_path + '/' + USERS_FILE
+reports_list = ["salesordersxml", "salesordersconfirmedxml", "socitemsxml", "paymentsxml", "parscreatedxml", "parsloggedxml",\
+                "rcmclosedxml", "sovoidxml", "invoicesstatusxml", "invoicescreatedxml"]
 
 def process_data(username, password, browser):
     """"""
@@ -55,14 +58,17 @@ def process_data(username, password, browser):
         tr_links = tr.find_elements_by_tag_name('a')
         report_link = tr_links[0].get_attribute('href')
         report_status = tds[2].text
-        report_name = tds[3].text
+        report_name = tds[3].text.split("\\")[-1]
         report_type = tds[4].text
-        if report_status == 'Completed' and report_type == 'XML' and \
-           (report_name.endswith('SalesOrdersXML') or report_name.endswith('SalesOrdersConfirmedXML')):
+        parsed = urlparse.urlparse(report_link)
+        report_filename = urlparse.parse_qs(parsed.query)['FileName'][0]
+        report_file = xmlfiles_path + '/' + report_name + '_' + report_filename
+        print ("Processing: " + report_name + " (" + report_filename + ") ...")
+
+        if report_status == 'Completed' and report_type == 'XML' and (report_name.lower() in reports_list):
             response = session.get(report_link)
             report_contents = response.content
-            parsed = urlparse.urlparse(report_link)
-            report_filename = urlparse.parse_qs(parsed.query)['FileName'][0]
+            report_contents = report_contents.replace("&#x1F;", "")
             doc = xmltodict.parse(report_contents)
 
             try:
@@ -71,7 +77,7 @@ def process_data(username, password, browser):
                 records = []
 
             # Save a local copy of the report (no required)
-            f = open(script_path + '/' + report_filename, "wb")
+            f = open(report_file, "wb")
             f.write(report_contents)
             f.close()
 
@@ -81,7 +87,7 @@ def process_data(username, password, browser):
             for record in records:
                 if report_name.endswith('SalesOrdersXML'):
                     insert_data_so(record)
-                else:
+                elif report_name.endswith('SalesOrdersConfirmedXML'):
                     insert_data_soc(record)
 
 
