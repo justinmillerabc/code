@@ -89,6 +89,24 @@ def process_data(username, password, browser):
                     insert_data_so(record)
                 elif report_name.endswith('SalesOrdersConfirmedXML'):
                     insert_data_soc(record)
+                elif report_name.endswith('SOVoidXML'):
+                    insert_data_sovoid(record)
+                elif report_name.endswith('SOCItemsXML'):
+                    insert_data_socitems(record)
+                elif report_name.endswith('RCMClosedXML'):
+                    insert_data_rcmclosed(record)
+                elif report_name.endswith('PARsCreatedXML'):
+                    insert_data_parscreated(record)
+                elif report_name.endswith('ParsLoggedXML'):
+                    insert_data_parslogged(record)
+                elif report_name.endswith('PaymentsXML'):
+                    insert_data_payments(record)
+                elif report_name.endswith('InvoicesCreatedXML'):
+                    insert_data_invoicescreated(record)
+                elif report_name.endswith('InvoicesStatusXML'):
+                    insert_data_invoicesstatus(record)
+
+
 
 
 def main():

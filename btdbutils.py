@@ -916,3 +916,260 @@ def insert_data_soc(rec):
 
         # Rollback in case there is any error
         db.rollback()
+
+
+def insert_data_socitems(rec):
+    """"""
+    print ("soc_items: inserting data for SO #." +  str(get_col_val(rec, 'so_number')))
+    # Open database connection
+    db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME, use_unicode=True, charset="utf8")
+
+    # Prepare a cursor object using cursor() method
+    cursor = db.cursor()
+
+    sql = """
+    """
+
+    try:
+        # Execute the SQL commands
+        r = cursor.execute(sql)
+
+        # Commit your changes in the database
+        db.commit()
+
+        #print ('so_number: ', get_col_val(rec, 'so_number'), r, 'record inserted')
+
+    except (MySQLdb.Error) as e:
+        print ('Error inserting record with SO #.' + str(get_col_val(rec, 'so_number')) )
+        print (e) 
+
+        # Rollback in case there is any error
+        db.rollback()
+
+    # disconnect from the DB server
+    db.close()
+
+
+def insert_data_sovoid(rec):
+    """"""
+    print ("so_void: inserting data for SO #." +  str(get_col_val(rec, 'so_number')))
+    # Open database connection
+    db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME, use_unicode=True, charset="utf8")
+
+    # Prepare a cursor object using cursor() method
+    cursor = db.cursor()
+
+    sql = """
+    """
+
+    try:
+        # Execute the SQL commands
+        r = cursor.execute(sql)
+
+        # Commit your changes in the database
+        db.commit()
+
+        #print ('so_number: ', get_col_val(rec, 'so_number'), r, 'record inserted')
+
+    except (MySQLdb.Error) as e:
+        print ('Error inserting record with SO #.' + str(get_col_val(rec, 'so_number')) )
+        print (e) 
+
+        # Rollback in case there is any error
+        db.rollback()
+
+    # disconnect from the DB server
+    db.close()
+
+
+def insert_data_rcmclosed(rec):
+    """"""
+    print ("rcm_closed: inserting data for SO #." +  str(get_col_val(rec, 'so_number')))
+    # Open database connection
+    db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME, use_unicode=True, charset="utf8")
+
+    # Prepare a cursor object using cursor() method
+    cursor = db.cursor()
+
+    sql = """
+    """
+
+    try:
+        # Execute the SQL commands
+        r = cursor.execute(sql)
+
+        # Commit your changes in the database
+        db.commit()
+
+        #print ('so_number: ', get_col_val(rec, 'so_number'), r, 'record inserted')
+
+    except (MySQLdb.Error) as e:
+        print ('Error inserting record with SO #.' + str(get_col_val(rec, 'so_number')) )
+        print (e) 
+
+        # Rollback in case there is any error
+        db.rollback()
+
+    # disconnect from the DB server
+    db.close()
+
+
+def insert_data_parscreated(rec):
+    """"""
+    print ("pars_created: inserting data for SO #." +  str(get_col_val(rec, 'so_number')))
+    # Open database connection
+    db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME, use_unicode=True, charset="utf8")
+
+    # Prepare a cursor object using cursor() method
+    cursor = db.cursor()
+
+    sql = """
+    """
+
+    try:
+        # Execute the SQL commands
+        r = cursor.execute(sql)
+
+        # Commit your changes in the database
+        db.commit()
+
+        #print ('so_number: ', get_col_val(rec, 'so_number'), r, 'record inserted')
+
+    except (MySQLdb.Error) as e:
+        print ('Error inserting record with SO #.' + str(get_col_val(rec, 'so_number')) )
+        print (e) 
+
+        # Rollback in case there is any error
+        db.rollback()
+
+    # disconnect from the DB server
+    db.close()
+
+
+def insert_data_parslogged(rec):
+    """"""
+    print ("pars_logged: inserting data for SO #." +  str(get_col_val(rec, 'so_number')))
+    # Open database connection
+    db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME, use_unicode=True, charset="utf8")
+
+    # Prepare a cursor object using cursor() method
+    cursor = db.cursor()
+
+    sql = """
+    """
+
+    try:
+        # Execute the SQL commands
+        r = cursor.execute(sql)
+
+        # Commit your changes in the database
+        db.commit()
+
+        #print ('so_number: ', get_col_val(rec, 'so_number'), r, 'record inserted')
+
+    except (MySQLdb.Error) as e:
+        print ('Error inserting record with SO #.' + str(get_col_val(rec, 'so_number')) )
+        print (e) 
+
+        # Rollback in case there is any error
+        db.rollback()
+
+    # disconnect from the DB server
+    db.close()
+
+
+def insert_data_payments(rec):
+    """"""
+    print ("payments: inserting data for SO #." +  str(get_col_val(rec, 'so_number')))
+    # Open database connection
+    db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME, use_unicode=True, charset="utf8")
+
+    # Prepare a cursor object using cursor() method
+    cursor = db.cursor()
+
+    sql = """
+    """
+
+    try:
+        # Execute the SQL commands
+        r = cursor.execute(sql)
+
+        # Commit your changes in the database
+        db.commit()
+
+        #print ('so_number: ', get_col_val(rec, 'so_number'), r, 'record inserted')
+
+    except (MySQLdb.Error) as e:
+        print ('Error inserting record with SO #.' + str(get_col_val(rec, 'so_number')) )
+        print (e) 
+
+        # Rollback in case there is any error
+        db.rollback()
+
+    # disconnect from the DB server
+    db.close()
+
+
+def insert_data_invoicescreated(rec):
+    """"""
+    print ("invoices_created: inserting data for SO #." +  str(get_col_val(rec, 'so_number')))
+    # Open database connection
+    db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME, use_unicode=True, charset="utf8")
+
+    # Prepare a cursor object using cursor() method
+    cursor = db.cursor()
+
+    sql = """
+    """
+
+    try:
+        # Execute the SQL commands
+        r = cursor.execute(sql)
+
+        # Commit your changes in the database
+        db.commit()
+
+        #print ('so_number: ', get_col_val(rec, 'so_number'), r, 'record inserted')
+
+    except (MySQLdb.Error) as e:
+        print ('Error inserting record with SO #.' + str(get_col_val(rec, 'so_number')) )
+        print (e) 
+
+        # Rollback in case there is any error
+        db.rollback()
+
+    # disconnect from the DB server
+    db.close()
+
+
+def insert_data_invoicesstatus(rec):
+    """"""
+    print ("invoices_status: inserting data for SO #." +  str(get_col_val(rec, 'so_number')))
+    # Open database connection
+    db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME, use_unicode=True, charset="utf8")
+
+    # Prepare a cursor object using cursor() method
+    cursor = db.cursor()
+
+    sql = """
+    """
+
+    try:
+        # Execute the SQL commands
+        r = cursor.execute(sql)
+
+        # Commit your changes in the database
+        db.commit()
+
+        #print ('so_number: ', get_col_val(rec, 'so_number'), r, 'record inserted')
+
+    except (MySQLdb.Error) as e:
+        print ('Error inserting record with SO #.' + str(get_col_val(rec, 'so_number')) )
+        print (e) 
+
+        # Rollback in case there is any error
+        db.rollback()
+
+    # disconnect from the DB server
+    db.close()
+
