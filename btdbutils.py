@@ -460,12 +460,15 @@ def get_col_val(rec, key):
     """"""
     if SO_MAP[key] in rec.keys() and type(rec[SO_MAP[key]]) in [type(''), type(u'')]:
        val = rec[SO_MAP[key]]
-       if val == 'false': 
+       if val.lower() == 'false': 
           val = 0
-       elif val == 'true':
+       elif val.lower() == 'true':
           val = 1
     else:
        val = ''
+
+    if 'date' in key or 'dos' in key:
+        val = val.replace('T', ' ')
 
     if type(val) in [type(''), type(u'')]:
         val = val.replace('"', '&quote;')
@@ -475,7 +478,7 @@ def get_col_val(rec, key):
 
 def insert_data_so(rec):
     """"""
-    print ("sales_order: inserting data for SO #." +  str(get_col_val(rec, 'so_number')))
+    #print ("sales_order: inserting data for SO #." +  str(get_col_val(rec, 'so_number')))
     # Open database connection
     db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME, use_unicode=True, charset="utf8")
 
@@ -535,6 +538,7 @@ def insert_data_so(rec):
 
     except (MySQLdb.Error) as e:
         print ('Error inserting record with SO #.' + str(get_col_val(rec, 'so_number')) )
+        print (sql)
         print (e) 
 
         # Rollback in case there is any error
@@ -546,7 +550,7 @@ def insert_data_so(rec):
 
 def insert_data_soc(rec):
     """"""
-    print ("sales_order_confirmed: inserting data for SO #." + str(get_col_val(rec, 'so_number')))
+    #print ("sales_order_confirmed: inserting data for SO #." + str(get_col_val(rec, 'so_number')))
 
     # Open database connection
     db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME, use_unicode=True, charset="utf8")
@@ -936,7 +940,7 @@ def insert_data_soc(rec):
 
 def insert_data_socitems(rec):
     """"""
-    print ("soc_items: inserting data for SO #." +  str(get_col_val(rec, 'sales_order_number')))
+    #print ("soc_items: inserting data for SO #." +  str(get_col_val(rec, 'sales_order_number')))
     # Open database connection
     db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME, use_unicode=True, charset="utf8")
 
@@ -1058,6 +1062,7 @@ def insert_data_socitems(rec):
 
     except (MySQLdb.Error) as e:
         print ('Error inserting record with SO #.' + str(get_col_val(rec, 'sales_order_number')) )
+        print (sql)
         print (e) 
 
         # Rollback in case there is any error
@@ -1069,7 +1074,7 @@ def insert_data_socitems(rec):
 
 def insert_data_sovoid(rec):
     """"""
-    print ("so_void: inserting data for SO #." +  str(get_col_val(rec, 'sales_order_void_voided_sales_order_number')))
+    #print ("so_void: inserting data for SO #." +  str(get_col_val(rec, 'sales_order_void_voided_sales_order_number')))
     # Open database connection
     db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME, use_unicode=True, charset="utf8")
 
@@ -1102,6 +1107,7 @@ def insert_data_sovoid(rec):
 
     except (MySQLdb.Error) as e:
         print ('Error inserting record with SO #.' + str(get_col_val(rec, 'sales_order_void_voided_sales_order_number')) )
+        print (sql)
         print (e) 
 
         # Rollback in case there is any error
@@ -1113,7 +1119,7 @@ def insert_data_sovoid(rec):
 
 def insert_data_rcmclosed(rec):
     """"""
-    print ("rcm_closed: inserting data for SO #." +  str(get_col_val(rec, 'so_number')))
+    #print ("rcm_closed: inserting data for activity task " +  str(get_col_val(rec, 'activity_task_id')))
     # Open database connection
     db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME, use_unicode=True, charset="utf8")
 
@@ -1175,7 +1181,8 @@ def insert_data_rcmclosed(rec):
         #print ('so_number: ', get_col_val(rec, 'so_number'), r, 'record inserted')
 
     except (MySQLdb.Error) as e:
-        print ('Error inserting record with SO #.' + str(get_col_val(rec, 'so_number')) )
+        print ('Error inserting record with activity task ' + str(get_col_val(rec, 'activity_task_id')) )
+        print (sql)
         print (e) 
 
         # Rollback in case there is any error
@@ -1187,7 +1194,7 @@ def insert_data_rcmclosed(rec):
 
 def insert_data_parscreated(rec):
     """"""
-    print ("pars_created: inserting data for SO #." +  str(get_col_val(rec, 'so_number')))
+    #print ("pars_created: inserting data for PAR #." +  str(get_col_val(rec, 'par_number')))
     # Open database connection
     db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME, use_unicode=True, charset="utf8")
 
@@ -1279,7 +1286,8 @@ def insert_data_parscreated(rec):
         #print ('so_number: ', get_col_val(rec, 'so_number'), r, 'record inserted')
 
     except (MySQLdb.Error) as e:
-        print ('Error inserting record with SO #.' + str(get_col_val(rec, 'so_number')) )
+        print ('Error inserting record with PAR #.' + str(get_col_val(rec, 'par_number')) )
+        print (sql)
         print (e) 
 
         # Rollback in case there is any error
@@ -1291,7 +1299,7 @@ def insert_data_parscreated(rec):
 
 def insert_data_parslogged(rec):
     """"""
-    print ("pars_logged: inserting data for SO #." +  str(get_col_val(rec, 'so_number')))
+    #print ("pars_logged: inserting data for PAR #." +  str(get_col_val(rec, 'par_number')))
     # Open database connection
     db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME, use_unicode=True, charset="utf8")
 
@@ -1386,7 +1394,7 @@ def insert_data_parslogged(rec):
         #print ('so_number: ', get_col_val(rec, 'so_number'), r, 'record inserted')
 
     except (MySQLdb.Error) as e:
-        print ('Error inserting record with SO #.' + str(get_col_val(rec, 'so_number')) )
+        print ('Error inserting record with PAR #.' + str(get_col_val(rec, 'par_number')) )
         print (e) 
 
         # Rollback in case there is any error
@@ -1398,7 +1406,7 @@ def insert_data_parslogged(rec):
 
 def insert_data_payments(rec):
     """"""
-    print ("payments: inserting data for SO #." +  str(get_col_val(rec, 'so_number')))
+    #print ("payments: inserting data for Payment " +  str(get_col_val(rec, 'payment_id')))
     # Open database connection
     db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME, use_unicode=True, charset="utf8")
 
@@ -1547,7 +1555,7 @@ def insert_data_payments(rec):
         #print ('so_number: ', get_col_val(rec, 'so_number'), r, 'record inserted')
 
     except (MySQLdb.Error) as e:
-        print ('Error inserting record with SO #.' + str(get_col_val(rec, 'so_number')) )
+        print ('Error inserting record with Payment ' + str(get_col_val(rec, 'payment_id')) )
         print (e) 
 
         # Rollback in case there is any error
@@ -1559,7 +1567,7 @@ def insert_data_payments(rec):
 
 def insert_data_invoicescreated(rec):
     """"""
-    print ("invoices_created: inserting data for Invoice #." +  str(get_col_val(rec, 'invoice_number')))
+    #print ("invoices_created: inserting data for Invoice #." +  str(get_col_val(rec, 'invoice_number')))
     # Open database connection
     db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME, use_unicode=True, charset="utf8")
 
@@ -1769,7 +1777,7 @@ def insert_data_invoicescreated(rec):
         #print ('so_number: ', get_col_val(rec, 'so_number'), r, 'record inserted')
 
     except (MySQLdb.Error) as e:
-        print ('Error inserting record with SO #.' + str(get_col_val(rec, 'so_number')) )
+        print ('Error inserting record with Invoice #.' + str(get_col_val(rec, 'invoice_number')) )
         print (e) 
 
         # Rollback in case there is any error
@@ -1781,7 +1789,7 @@ def insert_data_invoicescreated(rec):
 
 def insert_data_invoicesstatus(rec):
     """"""
-    print ("invoices_status: inserting data for Invoice #." +  str(get_col_val(rec, 'invoice_number')))
+    #print ("invoices_status: inserting data for Invoice #." +  str(get_col_val(rec, 'invoice_number')))
     # Open database connection
     db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME, use_unicode=True, charset="utf8")
 
@@ -1886,7 +1894,7 @@ def insert_data_invoicesstatus(rec):
         #print ('so_number: ', get_col_val(rec, 'so_number'), r, 'record inserted')
 
     except (MySQLdb.Error) as e:
-        print ('Error inserting record with SO #.' + str(get_col_val(rec, 'so_number')) )
+        print ('Error inserting record with Invoice #.' + str(get_col_val(rec, 'invoice_number')) )
         print (e) 
 
         # Rollback in case there is any error

@@ -60,10 +60,14 @@ def process_data(username, password, browser):
         report_status = tds[2].text
         report_name = tds[3].text.split("\\")[-1]
         report_type = tds[4].text
-        parsed = urlparse.urlparse(report_link)
-        report_filename = urlparse.parse_qs(parsed.query)['FileName'][0]
-        report_file = xmlfiles_path + '/' + report_name + '_' + report_filename
-        print ("Processing: " + report_name + " (" + report_filename + ") ...")
+        
+        try:
+            parsed = urlparse.urlparse(report_link)
+            report_filename = urlparse.parse_qs(parsed.query)['FileName'][0]
+            report_file = xmlfiles_path + '/' + report_name + '_' + report_filename
+            print ("Processing: " + report_name + " (" + report_filename + ") ...")
+        except:
+            continue
 
         if report_status == 'Completed' and report_type == 'XML' and (report_name.lower() in reports_list):
             response = session.get(report_link)
@@ -105,8 +109,6 @@ def process_data(username, password, browser):
                     insert_data_invoicescreated(record)
                 elif report_name.endswith('InvoicesStatusXML'):
                     insert_data_invoicesstatus(record)
-
-
 
 
 def main():
