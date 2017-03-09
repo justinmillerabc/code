@@ -538,7 +538,6 @@ def insert_data_so(rec):
 
     except (MySQLdb.Error) as e:
         print ('Error inserting record with SO #.' + str(get_col_val(rec, 'so_number')) )
-        print (sql)
         print (e) 
 
         # Rollback in case there is any error
@@ -1062,7 +1061,6 @@ def insert_data_socitems(rec):
 
     except (MySQLdb.Error) as e:
         print ('Error inserting record with SO #.' + str(get_col_val(rec, 'sales_order_number')) )
-        print (sql)
         print (e) 
 
         # Rollback in case there is any error
@@ -1107,7 +1105,6 @@ def insert_data_sovoid(rec):
 
     except (MySQLdb.Error) as e:
         print ('Error inserting record with SO #.' + str(get_col_val(rec, 'sales_order_void_voided_sales_order_number')) )
-        print (sql)
         print (e) 
 
         # Rollback in case there is any error
@@ -1182,7 +1179,6 @@ def insert_data_rcmclosed(rec):
 
     except (MySQLdb.Error) as e:
         print ('Error inserting record with activity task ' + str(get_col_val(rec, 'activity_task_id')) )
-        print (sql)
         print (e) 
 
         # Rollback in case there is any error
@@ -1287,7 +1283,6 @@ def insert_data_parscreated(rec):
 
     except (MySQLdb.Error) as e:
         print ('Error inserting record with PAR #.' + str(get_col_val(rec, 'par_number')) )
-        print (sql)
         print (e) 
 
         # Rollback in case there is any error

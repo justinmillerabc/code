@@ -71,7 +71,7 @@ def process_data(username, password, browser):
 
         if report_status == 'Completed' and report_type == 'XML' and (report_name.lower() in reports_list):
             response = session.get(report_link)
-            report_contents = response.content
+            report_contents = response.content.decode()
             report_contents = report_contents.replace("&#x1F;", "")
             doc = xmltodict.parse(report_contents)
 
