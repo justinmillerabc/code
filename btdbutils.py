@@ -467,11 +467,11 @@ def get_col_val(rec, key):
     else:
        val = ''
 
-    if 'date' in key or 'dos' in key:
-        val = val.replace('T', ' ')
-
     if type(val) in [type(''), type(u'')]:
         val = val.replace('"', '&quote;')
+
+        if 'date' in key or 'dos' in key:
+            val = val.replace('T', ' ')
 
     return val
 
@@ -1791,7 +1791,7 @@ def insert_data_invoicesstatus(rec):
     # Prepare a cursor object using cursor() method
     cursor = db.cursor()
 
-    sql = """INSERT INTO `InvoicesStatus` (
+    sql = """INSERT INTO `invoices_status` (
                                                `invoice_number`,
                                                `invoice_status`,
                                                `invoice_sales_order_number`,
