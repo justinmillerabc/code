@@ -1898,3 +1898,32 @@ def insert_data_invoicesstatus(rec):
     # disconnect from the DB server
     db.close()
 
+
+def delete_data_invoicesstatus():
+    """"""
+    print ("deleting all data from invoices_status")
+
+    # Open database connection
+    db = MySQLdb.connect(DBHOST, DBUSER, DBPASS, DBNAME, use_unicode=True, charset="utf8")
+
+    # Prepare a cursor object using cursor() method
+    cursor = db.cursor()
+
+    sql = """DELETE FROM `invoices_status`;"""
+
+    try:
+        # Execute the SQL commands
+        r = cursor.execute(sql)
+
+        # Commit your changes in the database
+        db.commit()
+
+    except (MySQLdb.Error) as e:
+        print (e)
+        print (sql)
+
+        # Rollback in case there is any error
+        db.rollback()
+
+    # disconnect from the DB server
+    db.close()
