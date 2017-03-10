@@ -72,9 +72,13 @@ def process_data(username, password, browser):
         if report_status == 'Completed' and report_type == 'XML' and (report_name.lower() in reports_list):
             response = session.get(report_link)
             report_contents = response.content
-            report_contents_str = report_contents.decode()
-            report_contents_str = report_contents_str.replace("&#x1F;", "")
-            doc = xmltodict.parse(report_contents_str)
+
+            if sys.version_info[0] == 3:
+                report_contents_str = report_contents.decode().replace("&#x1F;", "")
+                doc = xmltodict.parse(report_contents_str)
+            else:
+                report_contents = report_contents.replace("&#x1F;", "")
+                doc = xmltodict.parse(report_contents)
 
             try:
                 records = doc['Reports']['Detail']['Table1']
@@ -109,6 +113,7 @@ def process_data(username, password, browser):
                 elif report_name.endswith('InvoicesCreatedXML'):
                     insert_data_invoicescreated(record)
                 elif report_name.endswith('InvoicesStatusXML'):
+                    delete_data_invoicesstatus()
                     insert_data_invoicesstatus(record)
 
 
