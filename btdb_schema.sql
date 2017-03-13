@@ -582,7 +582,7 @@ CREATE TABLE `soc_items` (
   `sales_order_number` int(11) NOT NULL,
   `sales_order_detail_item_id` varchar(100) DEFAULT NULL,
   `sales_order_detail_item_name` varchar(100) NOT NULL DEFAULT '',
-  `sales_order_detail_item_description` varchar(100) DEFAULT NULL,
+  `sales_order_detail_item_description` varchar(256) DEFAULT NULL,
   `sales_order_detail_stocking_uom` varchar(100) DEFAULT NULL,
   `sales_order_detail_original_dos` datetime DEFAULT NULL,
   `sales_order_detail_next_date_of_service` datetime DEFAULT NULL,
