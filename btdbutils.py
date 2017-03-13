@@ -1001,7 +1001,7 @@ def insert_data_socitems(rec):
                                                "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
                                                "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
                                                "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", 
-                                               "%s", "%s", "%s", "%s", "%s", "%s" 
+                                               "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s"
                                        )
     """ % (
                               get_col_val(rec, 'sales_order_number'),
