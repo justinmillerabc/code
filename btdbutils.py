@@ -468,9 +468,6 @@ def get_col_val(rec, key):
 
         if 'date' in key.lower() or 'dos' in key.lower():
             val = val.replace('T', ' ')[:19]
-            print ('if:', key)
-        else:
-            print ('else:', key)
 
         if val.lower() == 'false':
             val = 0
