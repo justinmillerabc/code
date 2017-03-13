@@ -585,6 +585,8 @@ CREATE TABLE `soc_items` (
   `sales_order_detail_item_description` varchar(100) DEFAULT NULL,
   `sales_order_detail_stocking_uom` varchar(100) DEFAULT NULL,
   `sales_order_detail_original_dos` datetime DEFAULT NULL,
+  `sales_order_detail_next_date_of_service` datetime DEFAULT NULL,
+  `sales_order_detail_next_billing_date` datetime DEFAULT NULL,
   `sales_order_detail_special_pricing` tinyint(1) NOT NULL DEFAULT '0',
   `sales_order_detail_price_override` tinyint(1) NOT NULL DEFAULT '0',
   `sales_order_detail_qty` decimal(6,2) unsigned NOT NULL DEFAULT '0.00',
@@ -625,7 +627,7 @@ CREATE TABLE `soc_items` (
   `sales_order_detail_default_vendor` varchar(100) DEFAULT NULL,
   `sales_order_detail_calories_per_day` int(11) DEFAULT '0',
   `sales_order_detail_location` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`sales_order_number`,`sales_order_detail_item_name`,`sales_order_detail_qty`)
+  PRIMARY KEY (`sales_order_number`,`sales_order_detail_item_id`,`sales_order_detail_qty`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='SOC Items';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
