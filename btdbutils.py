@@ -458,20 +458,22 @@ SO_MAP = {
 
 def get_col_val(rec, key):
     """"""
+    val = ''
     if SO_MAP[key] in rec.keys() and type(rec[SO_MAP[key]]) in [type(''), type(u'')]:
-       val = rec[SO_MAP[key]]
-       if val.lower() == 'false': 
-          val = 0
-       elif val.lower() == 'true':
-          val = 1
-    else:
-       val = ''
 
-    if type(val) in [type(''), type(u'')]:
+        val = rec[SO_MAP[key]]
         val = val.replace('"', '&quote;')
 
-        if 'date' in key or 'dos' in key:
-            val = val.replace('T', ' ')
+        if 'date' in key.lower() or 'dos' in key.lower():
+            val = val.replace('T', ' ')[:19]
+            print ('if:', key)
+        else:
+            print ('else:', key)
+
+        if val.lower() == 'false':
+            val = 0
+        elif val.lower() == 'true':
+            val = 1
 
     return val
 
